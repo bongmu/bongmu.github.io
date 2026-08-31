@@ -372,7 +372,7 @@
   /* ── 返回链接：带 ?t=N 回对应模板；已定稿回定稿模板；否则回首页 ── */
   var t = new URLSearchParams(location.search).get('t');
   var back = $('#backLink');
-  if (t && t >= 1 && t <= 8) back.href = 't' + t + '.html';
+  if (t && t >= 1 && t <= 9) back.href = 't' + t + '.html';
   else if (C.finalTemplate) back.href = 't' + parseInt(C.finalTemplate, 10) + '.html';
   else back.href = 'index.html';
 
