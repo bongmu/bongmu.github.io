@@ -1,0 +1,9 @@
+node_modules/
+.env
+.astro/
+.DS_Store
+dev.log
+.idea/
+.frames/
+.shots/
+*.mp4

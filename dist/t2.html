@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#F7F3EA">
+<title>婚礼邀请函</title>
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Ma+Shan+Zheng&family=Noto+Serif+SC:wght@400;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+<style>
+  :root{
+    --bg:#F7F3EA; --card:#FFFFFF; --ink:#4A4638; --ink-soft:#8A8271;
+    --sage:#7C9070; --sage-deep:#5F7355; --rose:#C9897B; --rose-deep:#B06A5C;
+    --line:#E3DCCB;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  [hidden]{display:none !important;}
+  html{-webkit-text-size-adjust:100%;}
+  html.lock{overflow:hidden;}
+  body{background:var(--bg);color:var(--ink);font-family:"Noto Serif SC",serif;overflow-x:hidden;}
+  .wrap{max-width:520px;margin:0 auto;padding:0 22px;}
+
+  #disc{
+    position:fixed;top:calc(16px + env(safe-area-inset-top));right:16px;z-index:40;
+    width:44px;height:44px;border-radius:50%;
+    background:#FFF;border:1.5px solid var(--sage);color:var(--sage-deep);
+    font-size:19px;cursor:pointer;display:none;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px rgba(95,115,85,.25);
+  }
+  #disc.show{display:flex;}
+  #disc.playing i{display:block;animation:spin 7s linear infinite;font-style:normal;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* 封面：双开门 */
+  #cover{position:fixed;inset:0;z-index:50;cursor:pointer;background:var(--bg);}
+  .cv-stage{
+    position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;padding:0 34px;transform:scale(.94);opacity:0;
+    transition:transform 1s cubic-bezier(.22,1,.36,1) .25s, opacity 1s ease .25s;
+  }
+  #cover.open .cv-stage{transform:scale(1);opacity:1;}
+  .door{
+    position:absolute;top:0;bottom:0;width:50.5%;z-index:2;
+    background:
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'%3E%3Cg fill='none' stroke='%237C9070' stroke-opacity='.14' stroke-width='1.6'%3E%3Cpath d='M20,130 q10,-34 30,-46 q-4,26 -14,46 M30,140 q22,-8 44,2 q-24,10 -44,-2 M120,26 q22,10 24,34 q-20,-6 -24,-34'/%3E%3Ccircle cx='34' cy='118' r='2.4' fill='%23C9897B' stroke='none'/%3E%3Ccircle cx='128' cy='44' r='2.4' fill='%23C9897B' stroke='none'/%3E%3C/g%3E%3C/svg%3E"),
+      #FBF8F1;
+    box-shadow:0 0 34px rgba(74,70,56,.18);
+    transition:transform 1.25s cubic-bezier(.72,0,.28,1);
+  }
+  .door.dl{left:0;border-right:1.5px solid var(--sage);}
+  .door.dr{right:0;border-left:1.5px solid var(--sage);}
+  #cover.open .dl{transform:translateX(-102%);}
+  #cover.open .dr{transform:translateX(102%);}
+  .door .handle{
+    position:absolute;top:50%;width:15px;height:15px;border-radius:50%;
+    border:2px solid var(--rose);transform:translateY(-50%);
+  }
+  .dl .handle{right:16px;} .dr .handle{left:16px;}
+  .seam-badge{
+    position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:3;
+    width:76px;height:76px;border-radius:50%;
+    background:#FBF8F1;border:1.5px solid var(--sage);
+    display:flex;align-items:center;justify-content:center;
+    font-family:"Ma Shan Zheng",cursive;font-size:40px;color:var(--rose-deep);
+    box-shadow:0 8px 22px rgba(74,70,56,.20);
+    transition:opacity .35s ease;
+  }
+  #cover.open .seam-badge{opacity:0;}
+  .wreath{
+    width:92px;height:92px;margin:0 auto 20px;border-radius:50%;
+    border:1.5px solid var(--sage);position:relative;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .wreath::before{content:"";position:absolute;inset:5px;border:1px dashed rgba(201,137,123,.6);border-radius:50%;}
+  .wreath b{font-family:"Ma Shan Zheng",cursive;font-weight:400;font-size:46px;color:var(--rose-deep);}
+  .eyebrow{font-size:12px;letter-spacing:6px;color:var(--sage-deep);margin-bottom:14px;font-family:serif;}
+  .cv-names{font-family:"Ma Shan Zheng",cursive;font-weight:400;font-size:50px;color:var(--ink);letter-spacing:3px;line-height:1.3;}
+  .cv-names .amp{color:var(--rose);font-size:30px;vertical-align:8px;margin:0 8px;}
+  .cv-date{margin-top:18px;color:var(--ink-soft);font-size:15.5px;letter-spacing:3px;}
+  .cv-date em{font-style:normal;color:var(--rose-deep);}
+  .cv-slogan{margin-top:14px;font-size:14px;letter-spacing:4px;color:var(--ink-soft);}
+  .cv-hint{position:absolute;bottom:9vh;left:0;right:0;z-index:3;text-align:center;color:var(--sage-deep);font-size:13.5px;letter-spacing:6px;text-indent:6px;transition:opacity .35s ease;}
+  #cover.open .cv-hint{opacity:0;}
+  .cv-hint::after{content:"";display:block;width:1.5px;height:34px;background:var(--sage);margin:12px auto 0;animation:drip 1.6s ease-in-out infinite;}
+  @keyframes drip{0%{transform:scaleY(0);transform-origin:top;}55%{transform:scaleY(1);transform-origin:top;}56%{transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+
+  #book{padding:9vh 0 0;}
+  .sec{margin-bottom:62px;}
+  .sec-head{text-align:center;margin-bottom:24px;}
+  .sec-head h2{font-family:"Ma Shan Zheng",cursive;font-weight:400;font-size:29px;color:var(--sage-deep);letter-spacing:9px;text-indent:9px;}
+  .sec-head .sub{margin-top:5px;font-size:12px;letter-spacing:4px;color:var(--ink-soft);}
+  .leaf-div{display:flex;align-items:center;justify-content:center;gap:10px;margin:2px auto 18px;color:var(--sage);}
+  .leaf-div::before,.leaf-div::after{content:"";width:56px;height:1px;background:var(--line);}
+
+  .invite{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:30px 26px;text-align:center;font-size:16px;line-height:2.1;box-shadow:0 10px 28px rgba(95,115,85,.10);}
+  .invite .end{margin-top:4px;color:var(--rose-deep);letter-spacing:3px;}
+
+  .cd-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:24px 16px 20px;text-align:center;box-shadow:0 10px 28px rgba(95,115,85,.10);}
+  .cd-label{font-size:13px;letter-spacing:5px;color:var(--rose-deep);margin-bottom:14px;}
+  .cd-grid{display:flex;justify-content:center;gap:11px;}
+  .cd-cell{min-width:64px;padding:11px 4px 9px;background:var(--bg);border-radius:12px;}
+  .cd-cell b{display:block;font-size:30px;font-weight:700;color:var(--sage-deep);font-variant-numeric:tabular-nums;line-height:1.2;}
+  .cd-cell span{font-size:11.5px;color:var(--ink-soft);letter-spacing:2px;}
+
+  .gal{display:flex;flex-direction:column;gap:30px;align-items:center;}
+  .gal .ph{width:82%;background:var(--card);padding:9px 9px 12px;border:1px solid var(--line);border-radius:170px 170px 16px 16px;box-shadow:0 14px 30px rgba(95,115,85,.14);position:relative;}
+  .gal .ph:nth-child(even){border-radius:16px 16px 170px 170px;}
+  .gal .ph img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:160px 160px 8px 8px;}
+  .gal .ph:nth-child(even) img{border-radius:8px 8px 160px 160px;}
+  .gal .cap{
+    position:absolute;top:26px;left:50%;transform:translateX(-50%);
+    background:rgba(255,255,255,.92);color:var(--rose-deep);
+    font-family:"Ma Shan Zheng",cursive;font-size:17px;letter-spacing:3px;
+    padding:4px 16px;border-radius:999px;border:1px solid rgba(201,137,123,.45);
+  }
+
+  .quote{text-align:center;padding:6px 10px;}
+  .quote .qm{font-family:serif;font-size:42px;color:var(--rose);opacity:.8;line-height:1;}
+  .quote p{font-family:"Ma Shan Zheng",cursive;font-weight:400;font-size:24px;line-height:2;color:var(--ink);letter-spacing:3px;white-space:pre-line;margin-top:4px;}
+
+  .tl{position:relative;padding:4px 0 4px 8px;}
+  .tl::before{content:"";position:absolute;left:23px;top:12px;bottom:12px;width:1.5px;background:var(--line);}
+  .tl-item{position:relative;display:flex;align-items:baseline;gap:15px;padding:12px 0 12px 34px;}
+  .tl-item::before{content:"";position:absolute;left:18px;top:50%;transform:translateY(-50%);width:11px;height:11px;border-radius:50%;background:var(--sage);box-shadow:0 0 0 3px rgba(124,144,112,.18);}
+  .tl-item b{font-size:18.5px;color:var(--rose-deep);font-variant-numeric:tabular-nums;}
+  .tl-item span{font-size:16px;color:var(--ink);letter-spacing:1px;}
+
+  .loc-card{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:28px 24px 24px;text-align:center;box-shadow:0 10px 28px rgba(95,115,85,.10);}
+  .loc-card .venue{font-family:"Ma Shan Zheng",cursive;font-weight:400;font-size:38px;color:var(--sage-deep);letter-spacing:6px;margin-bottom:8px;}
+  .loc-card .addr{font-size:14.5px;color:var(--ink-soft);line-height:1.9;}
+  .btns{display:flex;flex-direction:column;gap:11px;margin-top:20px;}
+  .btn{display:flex;align-items:center;justify-content:center;gap:8px;padding:13px 0;border-radius:999px;text-decoration:none;font-size:16.5px;letter-spacing:4px;text-indent:4px;}
+  .btn-rose{background:var(--rose);color:#FFF;border:1.5px solid var(--rose);box-shadow:0 8px 18px rgba(176,106,92,.28);}
+  .btn-sage{background:transparent;color:var(--sage-deep);border:1.5px solid var(--sage);}
+  .btn:focus-visible{outline:3px solid var(--sage);outline-offset:3px;}
+  .loc-tip{margin-top:13px;font-size:12.5px;color:var(--ink-soft);letter-spacing:1px;}
+
+  .sign{text-align:center;padding-top:4px;}
+  .sign .wreath{margin-bottom:14px;}
+  .sign .who{font-family:"Ma Shan Zheng",cursive;font-size:26px;color:var(--ink);letter-spacing:3px;}
+  .sign .who .amp{color:var(--rose);margin:0 6px;}
+  .sign .jy{margin-top:6px;font-size:13px;letter-spacing:6px;color:var(--ink-soft);}
+  .sign .par{margin-top:11px;font-size:14px;color:var(--ink-soft);letter-spacing:2px;}
+  footer{padding:0 0 44px;text-align:center;}
+  footer p{color:var(--ink-soft);font-size:13.5px;letter-spacing:4px;}
+
+  html.js .rv{opacity:0;transform:translateY(26px);}
+  html.js .rv.on{opacity:1;transform:none;transition:opacity .9s ease,transform .9s cubic-bezier(.22,1,.36,1);}
+  @media (prefers-reduced-motion:reduce){
+    html.js .rv{opacity:1;transform:none;transition:none;}
+    #cover .door,#cover .cv-stage{transition:none;}
+    .door,.cv-hint::after{animation:none;}
+  }
+</style>
+</head>
+<body data-template="2">
+
+<button id="disc" aria-label="播放或暂停背景音乐"><i>♪</i></button>
+<audio id="bgm" loop preload="auto"></audio>
+
+<div id="cover" role="button" aria-label="开启请帖" tabindex="0" data-delay="2100">
+  <div class="cv-stage">
+    <div class="wreath"><b>囍</b></div>
+    <div class="eyebrow">THE WEDDING OF</div>
+    <div class="cv-names"><span data-n="groom">新郎</span><span class="amp">♥</span><span data-n="bride">新娘</span></div>
+    <div class="cv-date"><em data-d="dateText">2026年10月6日</em> · <span data-d="lunarText">农历八月廿六</span></div>
+    <div class="cv-slogan" data-d="coverSlogan">诚 邀 您 见 证 我 们 的 幸 福 时 刻</div>
+  </div>
+  <div class="cv-hint">点 击 开 启</div>
+  <div class="door dl"><span class="handle"></span></div>
+  <div class="door dr"><span class="handle"></span></div>
+  <div class="seam-badge">囍</div>
+</div>
+
+<main id="book">
+  <section class="sec">
+    <div class="sec-head rv"><h2>诚挚邀请</h2><div class="sub">INVITATION</div></div>
+    <div class="wrap">
+      <div class="invite rv">
+        <p data-d="inviteLine1">谨定于二〇二六年十月六日（农历八月廿六）</p>
+        <p data-d="inviteLine2">为 新郎 与 新娘 举行婚礼</p>
+        <p><span data-d="weekday">星期二</span> · <span data-d="venue">陈庄村</span></p>
+        <p class="end" data-d="inviteLine3">谨备喜筵 · 恭候光临</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head rv"><h2>大喜之日</h2><div class="sub">COUNTDOWN</div></div>
+    <div class="wrap">
+      <div class="cd-card rv">
+        <div class="cd-label">距 离 我 们 的 婚 礼</div>
+        <div class="cd-grid">
+          <div class="cd-cell"><b id="cd-d">--</b><span>天</span></div>
+          <div class="cd-cell"><b id="cd-h">--</b><span>时</span></div>
+          <div class="cd-cell"><b id="cd-m">--</b><span>分</span></div>
+          <div class="cd-cell"><b id="cd-s">--</b><span>秒</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head rv"><h2>我们的故事</h2><div class="sub">OUR MOMENTS</div></div>
+    <div class="wrap gal" data-gallery></div>
+  </section>
+
+  <section class="sec">
+    <div class="quote rv">
+      <div class="qm">“</div>
+      <p data-d="loveQuote">春来无事，只为花忙；
+往后余生，请多指教。</p>
+      <div class="qm" style="transform:rotate(180deg)">”</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head rv"><h2>婚礼安排</h2><div class="sub">SCHEDULE</div></div>
+    <div class="wrap">
+      <div class="invite rv" style="text-align:left;padding:24px 24px;">
+        <div class="leaf-div" style="margin-bottom:10px;">
+          <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><path d="M8 1 C10 5 13 6 15 6 C13 8 12 11 12 15 C9 13 6 12 2 12 C4 9 5 5 8 1 Z" fill="#7C9070" opacity=".55"/></svg>
+        </div>
+        <div class="tl" data-timeline></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="sec-head rv"><h2>婚礼地点</h2><div class="sub">LOCATION</div></div>
+    <div class="wrap">
+      <div class="loc-card rv">
+        <div class="venue" data-d="venue">陈庄村</div>
+        <div class="addr" data-d="address">陈庄村（沿乡道至学校路口，按路线图进村）</div>
+        <div class="btns">
+          <a class="btn btn-rose" data-route href="route.html">查看路线图 <span aria-hidden="true">→</span></a>
+          <a class="btn btn-sage" data-nav href="#" target="_blank" rel="noopener" hidden>一键导航（高德地图）</a>
+        </div>
+        <div class="loc-tip">手机导航搜索「<span data-d="poiName">陈庄村</span>」，到学校路口后按路线图进村</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec sign rv">
+    <div class="wreath"><b>囍</b></div>
+    <div class="who"><span data-n="groom">新郎</span><span class="amp">·</span><span data-n="bride">新娘</span> 敬邀</div>
+    <div class="jy">JOIN US · 恭候您的光临</div>
+    <div class="par" id="parents" hidden>主婚人：<span data-n="parents"></span></div>
+  </section>
+
+  <footer>
+    <p>2026.10.06 · <span data-d="venue">陈庄村</span>见</p>
+  </footer>
+</main>
+
+<script src="config.js"></script>
+<script src="core.js"></script>
+</body>
+</html>
