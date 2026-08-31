@@ -116,11 +116,11 @@
 
   .gal{display:flex;flex-direction:column;gap:32px;}
   .gal .ph{width:86%;background:#FFF;padding:9px 9px 13px;border-radius:18px;box-shadow:0 14px 30px rgba(178,78,99,.16);position:relative;}
-  .gal .ph:nth-child(odd){transform:rotate(-1.6deg);}
-  .gal .ph:nth-child(even){transform:rotate(1.6deg);align-self:flex-end;}
+  .gal .ph:nth-of-type(odd){transform:rotate(-1.6deg);}
+  .gal .ph:nth-of-type(even){transform:rotate(1.6deg);align-self:flex-end;}
   .gal .ph::after{content:"♥";position:absolute;top:-11px;right:14px;color:#FFF;background:var(--rose);width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;box-shadow:0 3px 8px rgba(178,78,99,.35);}
-  .gal .ph:nth-child(even)::after{right:auto;left:14px;background:var(--lav);}
-  .gal .ph img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:12px;}
+  .gal .ph:nth-of-type(even)::after{right:auto;left:14px;background:var(--lav);}
+  .gal .ph img{display:block;width:100%;height:auto;border-radius:12px;}
   .gal .cap{position:absolute;bottom:20px;left:16px;font-family:"Long Cang",cursive;font-size:23px;color:#FFF;text-shadow:0 2px 8px rgba(92,58,69,.65);}
 
   .quote{text-align:center;padding:4px 12px;}

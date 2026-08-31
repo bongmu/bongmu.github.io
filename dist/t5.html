@@ -96,9 +96,9 @@
   .gal{display:flex;flex-direction:column;gap:30px;}
   .gal .ph{width:88%;background:var(--paper);padding:8px 8px 12px;border-radius:6px;box-shadow:0 14px 30px rgba(90,12,4,.4);position:relative;}
   .gal .ph::before{content:"";position:absolute;inset:4px;border:1.5px solid var(--red);border-radius:4px;pointer-events:none;z-index:1;}
-  .gal .ph:nth-child(odd){transform:rotate(-1.2deg);}
-  .gal .ph:nth-child(even){transform:rotate(1.2deg);align-self:flex-end;}
-  .gal .ph img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:3px;}
+  .gal .ph:nth-of-type(odd){transform:rotate(-1.2deg);}
+  .gal .ph:nth-of-type(even){transform:rotate(1.2deg);align-self:flex-end;}
+  .gal .ph img{display:block;width:100%;height:auto;border-radius:3px;}
   .gal .cap{
     position:absolute;bottom:-12px;left:50%;transform:translateX(-50%);z-index:2;
     background:var(--red);color:var(--cream);font-family:"Ma Shan Zheng",cursive;

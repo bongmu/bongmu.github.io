@@ -105,9 +105,9 @@
 
   .gal{display:flex;flex-direction:column;gap:30px;align-items:center;}
   .gal .ph{width:82%;background:var(--card);padding:9px 9px 12px;border:1px solid var(--line);border-radius:170px 170px 16px 16px;box-shadow:0 14px 30px rgba(95,115,85,.14);position:relative;}
-  .gal .ph:nth-child(even){border-radius:16px 16px 170px 170px;}
-  .gal .ph img{display:block;width:100%;aspect-ratio:3/4;object-fit:cover;border-radius:160px 160px 8px 8px;}
-  .gal .ph:nth-child(even) img{border-radius:8px 8px 160px 160px;}
+  .gal .ph:nth-of-type(even){border-radius:16px 16px 170px 170px;}
+  .gal .ph img{display:block;width:100%;height:auto;border-radius:160px 160px 8px 8px;}
+  .gal .ph:nth-of-type(even) img{border-radius:8px 8px 160px 160px;}
   .gal .cap{
     position:absolute;top:26px;left:50%;transform:translateX(-50%);
     background:rgba(255,255,255,.92);color:var(--rose-deep);

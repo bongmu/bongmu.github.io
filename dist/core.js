@@ -20,6 +20,43 @@
   html.classList.add('js');
   html.classList.add('lock');
 
+  /* ── 全局氛围层 + 照片出场动画 + 图间文案（所有模板共用） ── */
+  (function(){
+    var st = document.createElement('style');
+    st.textContent =
+      /* 氛围层：顶部/底部金色光晕 + 四枚缓浮囍字水印 */
+      '.bg-deco{position:fixed;inset:0;z-index:-1;pointer-events:none;overflow:hidden;}'
+      + '.bg-deco::before{content:"";position:absolute;inset:0;background:'
+      + 'radial-gradient(90% 55% at 50% -10%,rgba(201,169,79,.16),transparent 62%),'
+      + 'radial-gradient(85% 50% at 50% 112%,rgba(201,169,79,.11),transparent 60%);}'
+      + '.bg-deco i{position:absolute;font-style:normal;font-family:"Ma Shan Zheng",cursive;'
+      + 'line-height:1;color:rgba(201,169,79,.07);user-select:none;}'
+      + '.bg-deco .g1{font-size:290px;top:4%;left:-56px;animation:bgd1 26s ease-in-out infinite;}'
+      + '.bg-deco .g2{font-size:200px;top:36%;right:-46px;animation:bgd2 31s ease-in-out infinite;}'
+      + '.bg-deco .g3{font-size:250px;bottom:-4%;left:-44px;animation:bgd1 29s ease-in-out infinite reverse;}'
+      + '.bg-deco .g4{font-size:150px;bottom:20%;right:-30px;animation:bgd2 24s ease-in-out infinite reverse;}'
+      + '@keyframes bgd1{0%,100%{transform:translate(0,0) rotate(-5deg);}50%{transform:translate(16px,-20px) rotate(3deg);}}'
+      + '@keyframes bgd2{0%,100%{transform:translate(0,0) rotate(6deg);}50%{transform:translate(-18px,16px) rotate(-3deg);}}'
+      /* 照片出场：上浮 + 展开。translate 与 transform 互相独立，不破坏模板里的拍立得倾斜 */
+      + 'html.js .gal .ph{opacity:0;translate:0 38px;clip-path:inset(12% 6% 12% 6%);}'
+      + 'html.js .gal .ph.on{opacity:1;translate:0 0;clip-path:inset(-30% -30% -30% -30%);'
+      + 'transition:opacity .8s ease,translate .95s cubic-bezier(.22,1,.36,1),clip-path 1.05s cubic-bezier(.22,1,.36,1);}'
+      /* 照片之间的小文案 */
+      + '.ph-note{text-align:center;font-size:13px;letter-spacing:2.5px;line-height:2;'
+      + 'margin:2px auto 0;max-width:30em;color:#9A7E58;}'
+      + '.ph-note::before{content:"";display:block;width:5px;height:5px;margin:0 auto 9px;'
+      + 'background:currentColor;opacity:.5;transform:rotate(45deg);}'
+      + 'body[data-template="1"] .ph-note,body[data-template="3"] .ph-note,body[data-template="5"] .ph-note{color:rgba(235,205,130,.8);}'
+      + '@media (prefers-reduced-motion:reduce){.bg-deco i{animation:none;}'
+      + 'html.js .gal .ph{opacity:1;translate:0 0;clip-path:none;transition:none;}}';
+    document.head.appendChild(st);
+    var deco = document.createElement('div');
+    deco.className = 'bg-deco';
+    deco.setAttribute('aria-hidden', 'true');
+    deco.innerHTML = '<i class="g1">囍</i><i class="g2">囍</i><i class="g3">囍</i><i class="g4">囍</i>';
+    document.body.appendChild(deco);
+  })();
+
   /* ── 填充姓名 / 文案 ── */
   $$('[data-n="groom"]').forEach(function(el){ el.textContent = C.groom || '新郎'; });
   $$('[data-n="bride"]').forEach(function(el){ el.textContent = C.bride || '新娘'; });
@@ -41,6 +78,12 @@
       var img = fig.querySelector('img');
       img.src = p.src; img.alt = p.caption || '婚纱照';
       box.appendChild(fig);
+      if (p.note) {
+        var note = document.createElement('div');
+        note.className = 'ph-note rv';
+        note.textContent = p.note;
+        box.appendChild(note);
+      }
     });
   });
 

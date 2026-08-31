@@ -43,11 +43,11 @@ window.WEDDING = {
 
   /* ── 照片（替换 assets/photos/ 同名文件即可；加照片：放入 6.jpg 后加一行）── */
   photos: [
-    { src: "assets/photos/1.jpg", caption: "初 见" },
-    { src: "assets/photos/2.jpg", caption: "相 恋" },
-    { src: "assets/photos/3.jpg", caption: "同 行" },
-    { src: "assets/photos/4.jpg", caption: "求 婚" },
-    { src: "assets/photos/5.jpg", caption: "囍 事" },
+    { src: "assets/photos/1.jpg", caption: "初 见", note: "人海茫茫，一眼就认定了你" },
+    { src: "assets/photos/2.jpg", caption: "相 恋", note: "把喜欢，慢慢熬成了爱" },
+    { src: "assets/photos/3.jpg", caption: "同 行", note: "平凡的日子，有你都在发光" },
+    { src: "assets/photos/4.jpg", caption: "求 婚", note: "你点头那一刻，星星落进了眼里" },
+    { src: "assets/photos/5.jpg", caption: "囍 事", note: "往后余生，请多指教" },
   ],
 
   /* ── 背景音乐：换成别的歌时，把 mp3 放进 assets/music/ 再改这里的路径即可 ──
