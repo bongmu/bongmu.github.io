@@ -50,6 +50,7 @@
       + '@media (prefers-reduced-motion:reduce){.bg-deco i{animation:none;}'
       + 'html.js .gal .ph{opacity:1;translate:0 0;clip-path:none;transition:none;}}';
     document.head.appendChild(st);
+    if (document.body.getAttribute('data-deco') === 'off') return;
     var deco = document.createElement('div');
     deco.className = 'bg-deco';
     deco.setAttribute('aria-hidden', 'true');
@@ -189,6 +190,79 @@
     }, { threshold: 0.12 });
     rvs.forEach(function(el){ io.observe(el); });
   }
+
+  /* ── 分享给亲友（微信引导 / 系统分享 / 复制链接 + 二维码） ── */
+  (function(){
+    var isWx = /MicroMessenger/i.test(navigator.userAgent);
+    var url  = C.siteUrl || location.href.split('#')[0];
+    var who  = (C.groom||'') + ' ♥ ' + (C.bride||'');
+
+    var st = document.createElement('style');
+    st.textContent =
+      '.share-box{max-width:520px;margin:0 auto 54px;padding:26px 24px 24px;text-align:center;'
+      + 'border-radius:16px;background:rgba(255,252,245,.94);border:1px solid rgba(154,122,46,.22);'+ 'box-shadow:0 12px 30px rgba(0,0,0,.16);}'+ 'body[data-template="3"] .share-box,body[data-template="7"] .share-box{'+ 'background:rgba(255,255,255,.05);border-color:rgba(201,168,112,.3);}'+ 'body[data-template="3"] .share-box h3,body[data-template="7"] .share-box h3{color:#C9A870;}'+ 'body[data-template="3"] .share-btn,body[data-template="7"] .share-btn{background:#C9A870;color:#17130C;}'+ 'body[data-template="3"] .share-btn.shb-alt,body[data-template="7"] .share-btn.shb-alt{'+ 'background:transparent;color:#C9A870;border-color:#C9A870;}'
+      + '.share-box h3{font-size:17px;letter-spacing:4px;text-indent:4px;color:#8E1F24;font-weight:600;margin-bottom:4px;}'
+      + '.share-box .sd{font-size:12.5px;letter-spacing:1.5px;color:#9A8A70;margin-bottom:16px;}'
+      + '.share-qr{width:132px;height:132px;margin:0 auto 8px;display:block;border-radius:8px;}'
+      + '.share-qr-t{font-size:12px;letter-spacing:2px;color:#9A8A70;margin-bottom:18px;}'
+      + '.share-btn{display:block;width:100%;padding:14px 0;border:none;border-radius:999px;cursor:pointer;'
+      + 'background:#8E1F24;color:#FFF6E8;font-size:16px;letter-spacing:5px;text-indent:5px;font-family:inherit;}'
+      + '.share-btn.shb-alt{margin-top:10px;background:transparent;color:#9A7A2E;border:1.5px solid #C9A94F;}'
+      + '.share-tip{margin-top:12px;font-size:12px;color:#B0A084;letter-spacing:1px;min-height:16px;}'
+      /* 微信引导蒙层 */
+      + '#wxmask{position:fixed;inset:0;z-index:99;background:rgba(0,0,0,.82);display:none;'
+      + 'flex-direction:column;align-items:flex-end;padding:16px 22px 0;color:#fff;text-align:right;}'
+      + '#wxmask.on{display:flex;}'
+      + '#wxmask .arrow{font-size:44px;line-height:1;margin-right:6px;animation:wxup 1.4s ease-in-out infinite;}'
+      + '@keyframes wxup{0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);}}'
+      + '#wxmask .wt{margin-top:10px;font-size:17px;line-height:2;letter-spacing:1px;}'
+      + '#wxmask .wt b{color:#FFD98A;}'
+      + '#wxmask .wc{margin:34px auto 0;font-size:13px;color:rgba(255,255,255,.6);letter-spacing:2px;}';
+    document.head.appendChild(st);
+
+    var box = document.createElement('div');
+    box.className = 'share-box';
+    box.innerHTML =
+      '<h3>把这份喜悦传给亲友</h3>'
+      + '<div class="sd">' + who + ' 诚邀您的家人朋友一同见证</div>'
+      + '<img class="share-qr" src="assets/img/qr.png" alt="请帖二维码" loading="lazy">'
+      + '<div class="share-qr-t">长按二维码 · 识别查看请帖</div>'
+      + '<button class="share-btn" type="button">转 发 给 亲 友</button>'
+      + '<button class="share-btn shb-alt" type="button">复 制 链 接</button>'
+      + '<div class="share-tip"></div>';
+    document.body.appendChild(box);
+
+    var tip = box.querySelector('.share-tip');
+    var btns = box.querySelectorAll('.share-btn');
+
+    function copy(){
+      var t = document.createElement('textarea');
+      t.value = who + ' 婚礼邀请函\n' + url;
+      t.style.cssText = 'position:fixed;opacity:0;';
+      document.body.appendChild(t); t.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch(e){}
+      document.body.removeChild(t);
+      tip.textContent = ok ? '✓ 已复制，去微信粘贴发送给亲友吧' : '复制失败，请长按上方二维码保存后发送';
+    }
+
+    btns[0].addEventListener('click', function(){
+      if (isWx) { document.getElementById('wxmask').classList.add('on'); return; }
+      if (navigator.share) {
+        navigator.share({ title: who + ' 婚礼邀请函', text: (C.coverSlogan||'诚邀您见证我们的幸福时刻'), url: url })
+          .catch(function(){});
+      } else { copy(); }
+    });
+    btns[1].addEventListener('click', copy);
+
+    var mask = document.createElement('div');
+    mask.id = 'wxmask';
+    mask.innerHTML = '<div class="arrow">☝</div>'
+      + '<div class="wt">点击右上角 <b>· · ·</b><br>选择「<b>发送给朋友</b>」或「<b>分享到朋友圈</b>」</div>'
+      + '<div class="wc">轻触屏幕关闭</div>';
+    mask.addEventListener('click', function(){ mask.classList.remove('on'); });
+    document.body.appendChild(mask);
+  })();
 
   /* ── 背景音乐署名（CC BY 4.0 要求署名，自动显示在页面底部） ── */
   if (C.music && C.musicCredit !== false) {

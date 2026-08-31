@@ -7,3 +7,5 @@ dev.log
 .frames/
 .shots/
 *.mp4
+.shots/
+photos-original/

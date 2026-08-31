@@ -7,6 +7,9 @@ window.WEDDING = {
      打开首页就会直接进入那一款，客人看不到选稿页；留空 = 显示五款选择页 */
   finalTemplate: "",
 
+  /* ── 站点地址（分享链接 / 二维码用，换域名时改这里）── */
+  siteUrl: "https://qyj-tools.eu.cc/",
+
   /* ── 新人姓名（所有模板自动替换）── */
   groom: "秦钰杰",                    // 如：李承泽
   bride: "吴雅男",                    // 如：王小雅
@@ -27,13 +30,6 @@ window.WEDDING = {
   lat: "35.78",
   poiName: "陈庄村",
 
-  /* ── 当天安排（可增删）── */
-  timeline: [
-    { time: "09:00", label: "迎宾入席" },
-    { time: "09:58", label: "婚礼仪式" },
-    { time: "11:58", label: "喜宴开席" },
-  ],
-
   /* ── 文案 ── */
   coverSlogan: "诚 邀 您 见 证 我 们 的 幸 福 时 刻",
   inviteLine1: "谨定于二〇二六年十月六日（农历八月廿六）",
@@ -50,8 +46,14 @@ window.WEDDING = {
     { src: "assets/photos/5.jpg", caption: "", note: "往后余生，请多指教" },
   ],
 
-  /* ── 背景音乐：换成别的歌时，把 mp3 放进 assets/music/ 再改这里的路径即可 ──
-     当前：Canon in D Major（Kevin MacLeod 演奏版，CC BY 4.0 免费可用）
-     署名由 core.js 自动显示在页面底部，无需手动维护 */
+  /* ── 背景音乐 ──────────────────────────────────────────────
+     两种填法都支持：
+     ① 本地文件（推荐，最稳）：放进 assets/music/ 后写相对路径
+     ② 在线直链：直接写 https 开头的 mp3 地址，如
+        music: "https://cdn.jsdelivr.net/gh/你的用户名/仓库@main/song.mp3"
+     在线链接注意：必须是 https、必须允许跨站引用（网易云/QQ音乐的分享
+     链接大多有防盗链，会放不出声）。音乐改成了「点开才加载」，
+     不会拖慢首屏，本地文件其实比外链更快更稳。
+     musicCredit: false 可隐藏底部署名（换成自己的歌时用） */
   music: "assets/music/canon-in-d.mp3",
 };
