@@ -146,4 +146,19 @@
     }, { threshold: 0.12 });
     rvs.forEach(function(el){ io.observe(el); });
   }
+
+  /* ── 背景音乐署名（CC BY 4.0 要求署名，自动显示在页面底部） ── */
+  if (C.music && C.musicCredit !== false) {
+    var st = document.createElement('style');
+    st.textContent = '.bgm-credit{display:block;width:max-content;max-width:92%;margin:22px auto 10px;'
+      + 'padding:5px 14px;border-radius:999px;font-size:11px;letter-spacing:.5px;text-decoration:none;'
+      + 'color:#8A7256;background:rgba(251,245,232,.85);border:1px solid rgba(138,114,86,.28);}';
+    document.head.appendChild(st);
+    var cr = document.createElement('a');
+    cr.className = 'bgm-credit';
+    cr.href = 'https://incompetech.com/music/royalty-free/music.html';
+    cr.target = '_blank'; cr.rel = 'noopener';
+    cr.textContent = '背景音乐 Canon in D Major · Kevin MacLeod (incompetech.com) · CC BY 4.0';
+    document.body.appendChild(cr);
+  }
 })();

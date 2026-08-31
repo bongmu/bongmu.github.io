@@ -8,12 +8,12 @@ window.WEDDING = {
   finalTemplate: "",
 
   /* ── 新人姓名（所有模板自动替换）── */
-  groom: "新郎",                    // 如：李承泽
-  bride: "新娘",                    // 如：王小雅
+  groom: "秦钰杰",                    // 如：李承泽
+  bride: "吴雅男",                    // 如：王小雅
   groomParents: "",                 // 敬邀落款（新郎父母名），留空不显示
 
   /* ── 婚礼日期 ── */
-  dateISO: "2026-10-06T09:58:00+08:00",   // 吉时（倒计时用）
+  dateISO: "2026-10-06",   // 吉时（倒计时用）
   dateText: "2026年10月6日",
   weekday:  "星期二",
   lunarText:"农历八月廿六",
@@ -23,14 +23,14 @@ window.WEDDING = {
   address: "陈庄村（沿乡道至学校路口，按路线图进村）",
   /* 一键导航：https://lbs.amap.com/tools/picker 拾取坐标后填这里，
      「一键导航」按钮自动出现；留空隐藏 */
-  lng: "",
-  lat: "",
+  lng: "113.89",
+  lat: "35.78",
   poiName: "陈庄村",
 
   /* ── 当天安排（可增删）── */
   timeline: [
     { time: "09:00", label: "迎宾入席" },
-    { time: "09:58", label: "婚礼仪式 · 三爷家舞台" },
+    { time: "09:58", label: "婚礼仪式" },
     { time: "11:58", label: "喜宴开席" },
   ],
 
@@ -50,6 +50,8 @@ window.WEDDING = {
     { src: "assets/photos/5.jpg", caption: "囍 事" },
   ],
 
-  /* ── 背景音乐：mp3 命名为 music.mp3 放进 assets/music/ 即生效 ── */
-  music: "assets/music/music.mp3",
+  /* ── 背景音乐：换成别的歌时，把 mp3 放进 assets/music/ 再改这里的路径即可 ──
+     当前：Canon in D Major（Kevin MacLeod 演奏版，CC BY 4.0 免费可用）
+     署名由 core.js 自动显示在页面底部，无需手动维护 */
+  music: "assets/music/canon-in-d.mp3",
 };
