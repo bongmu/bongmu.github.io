@@ -196,7 +196,7 @@ a{color:inherit;text-decoration:none}
 /* =====================  2/7 邀请函  ===================== */
 /* 照片从顶部满宽铺下来，底边融进淡粉 */
 .pg-invite .band{left:0;right:0;top:0;width:auto;height:46%;z-index:1}
-.pg-invite.ar1-land .band{height:38%}
+.pg-invite.ar1-land .band{height:46%}
 .pg-invite .band::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(251,239,233,.42) 0%,rgba(251,239,233,0) 18%,
@@ -212,8 +212,8 @@ a{color:inherit;text-decoration:none}
 }
 .pg-invite .verse{display:flex;flex-direction:column;gap:13px}
 .pg-invite .vl{
-  font-family:var(--kai);font-weight:700;font-size:clamp(18px,5.4vw,22px);
-  letter-spacing:.14em;text-indent:.14em;color:var(--red);
+  font-family:var(--kai);font-weight:700;font-size:clamp(16px,4.8vw,20px);
+  letter-spacing:.12em;text-indent:.12em;color:var(--red);
 }
 .pg-invite .ivbody{
   margin:24px 0 0;font-family:var(--kai);

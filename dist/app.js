@@ -83,7 +83,8 @@
         '<div class="verse">' + verse + '</div>' +
         '<p class="ivbody" data-anim="up"' + d(1180) + '>' + esc(p.body) + '</p>' +
         '<div class="seal"><span class="xi-seal" data-anim="seal"' + d(1450) + '>囍</span></div>' +
-        '<div class="sign" data-anim="up"' + d(1760) + '>' + esc(p.sign) + '</div>' +
+        (p.sign ? '<div class="sign" data-anim="up"' + d(1760) + '>' +
+          esc(p.sign) + '</div>' : '') +
       '</div>';
   };
 
