@@ -295,13 +295,13 @@ a{color:inherit;text-decoration:none}
 }
 
 /* =====================  5/7 婚礼时间（日历）  ===================== */
-.pg-calendar .eyebrow{
+.pg-vow .eyebrow{
   position:absolute;left:0;right:0;top:calc(var(--safe-t) + 56px);text-align:center;z-index:5;
 }
-.pg-calendar .cala{left:6%;top:11%;width:42%;height:auto;aspect-ratio:var(--ar1,.75);max-height:25%}
-.pg-calendar .calb{right:12%;top:14%;width:36%;height:auto;aspect-ratio:var(--ar2,.75);max-height:21%}
+.pg-vow .cala{left:6%;top:11%;width:42%;height:auto;aspect-ratio:var(--ar1,.75);max-height:25%}
+.pg-vow .calb{right:12%;top:14%;width:36%;height:auto;aspect-ratio:var(--ar2,.75);max-height:21%}
 .calwrap{
-  position:absolute;z-index:5;left:7%;right:7%;top:38%;
+  position:absolute;z-index:5;
   background:var(--cream);
   border:1px solid rgba(168,30,23,.16);border-radius:4px;
   box-shadow:0 16px 36px -20px rgba(122,42,34,.45);
@@ -341,18 +341,25 @@ a{color:inherit;text-decoration:none}
 }
 .calfoot .r1{font-family:var(--serif);font-size:14px;letter-spacing:.1em;color:var(--red-mid)}
 .calfoot .r2{font-family:var(--sans);font-size:11.5px;letter-spacing:.08em;color:var(--ink-soft)}
-.pg-calendar .clines{
-  position:absolute;z-index:5;left:0;right:0;bottom:calc(var(--safe-b) + 5%);
-  display:flex;flex-direction:column;align-items:center;gap:8px;
+/* 日历表移走后空出的中段：金线 → 四句誓词 → 囍印 → 落款 */
+.pg-vow .vowbox{
+  position:absolute;z-index:5;left:0;right:0;
+  top:41%;bottom:calc(var(--safe-b) + 7%);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;
 }
-.pg-calendar .cl{
-  font-family:var(--kai);font-size:13.5px;letter-spacing:.2em;text-indent:.2em;
-  color:var(--ink-soft);
+.pg-vow .clines{display:flex;flex-direction:column;align-items:center;gap:11px}
+.pg-vow .vsign{
+  font-family:var(--kai);font-size:12.5px;
+  letter-spacing:.3em;text-indent:.3em;color:var(--ink-fade);
+}
+.pg-vow .cl{
+  font-family:var(--kai);font-size:clamp(15px,4.4vw,17px);
+  letter-spacing:.22em;text-indent:.22em;color:var(--red-mid);
 }
 
 /* =====================  6/7 地址  ===================== */
-.pg-address .band{left:0;right:0;top:0;width:auto;height:33%;z-index:1}
-.pg-address.ar1-land .band{height:28%}
+.pg-address .band{left:0;right:0;top:0;width:auto;height:38%;z-index:1}
+.pg-address.ar1-land .band{height:36%}
 .pg-address .band::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(251,239,233,.42) 0%,rgba(251,239,233,0) 22%,
@@ -412,9 +419,14 @@ a{color:inherit;text-decoration:none}
   font-size:clamp(25px,7.4vw,31px);letter-spacing:.08em;text-indent:.08em;
   color:var(--red);
 }
+/* 暗底上的日历卡：像一张真请柬压在夜色里 */
+.pg-ending .calwrap{
+  left:8%;right:8%;top:calc(var(--safe-t) + 100px);
+  box-shadow:0 22px 46px -18px rgba(0,0,0,.66);
+}
 .pg-ending .efoot{
-  position:absolute;z-index:5;left:0;right:0;bottom:calc(var(--safe-b) + 52px);
-  display:flex;flex-direction:column;align-items:center;gap:12px;
+  position:absolute;z-index:5;left:0;right:0;bottom:calc(var(--safe-b) + 34px);
+  display:flex;flex-direction:column;align-items:center;gap:9px;
 }
 .pg-ending .elines{display:flex;flex-direction:column;align-items:center;gap:10px;margin-bottom:3px}
 .pg-ending .el{

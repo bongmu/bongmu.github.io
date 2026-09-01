@@ -30,7 +30,7 @@ window.INVITE = {
     week:     '星期二',
     // ⚠ 农历日期请自行核对后填写
     lunar:    '农历八月廿六',
-    timeText: '中午 12:00',
+    // 「中午12:00」已按要求去掉；tips 是给宾客的提醒，仍显示在最后一页日历下
     tips:     '请于 11:30 前入席'
   },
 
@@ -79,7 +79,6 @@ window.INVITE = {
     /* ---- 2/7 邀请函 ---- */
     { type: 'invite',
       photo: { src: 'assets/photos/04.jpg', focus: '50% 32%' },
-      eyebrow: 'WEDDING INVITATION',
       verse: ['蓄谋已久　如我所愿', '好事发生　恰逢其时'],
       body: '终于等到了这一天\n谨于此诚挚邀请您\n见证我们人生中最重要的时刻',
       sign: '我们不见不散'
@@ -106,14 +105,15 @@ window.INVITE = {
       cn: '今生佳偶天成\n未来风雨同行'
     },
 
-    /* ---- 5/7 婚礼时间（日历） ---- */
-    { type: 'calendar',
+    /* ---- 5/7 誓言（原日历页，日历表已移到最后一页） ---- */
+    { type: 'vow',
       photos: [
         { src: 'assets/photos/06.jpg', focus: '50% 28%' },
         { src: 'assets/photos/07.jpg', focus: '50% 28%' }
       ],
-      eyebrow: 'WEDDING TIME',
-      lines: ['愿我们的爱情', '如秋日的阳光', '岁岁年年', '相伴相守']
+      eyebrow: 'OUR VOW',
+      lines: ['愿我们的爱情', '如秋日的阳光', '岁岁年年', '相伴相守'],
+      sign: '此情可待'
     },
 
     /* ---- 6/7 婚礼地址 ---- */
@@ -125,7 +125,7 @@ window.INVITE = {
 
     /* ---- 7/7 结尾（烟花页） ---- */
     { type: 'ending',
-      photo: { src: 'assets/photos/08.jpg', focus: '50% 26%' },
+      photo: { src: 'assets/photos/06.jpg', focus: '50% 26%' },
       bigTitle: '好久不见，婚礼见！',
       lines: ['我们在这一天等你', '一起等一场烟花'],
       sign: '敬请光临',

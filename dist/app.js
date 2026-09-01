@@ -77,13 +77,12 @@
     }).join('');
     return '' +
       '<div class="ph band kb" style="--d:60ms">' + img(p.photo) + '</div>' +
-      '<div class="eyebrow" data-anim="fade"' + d(520) + '>' + esc(p.eyebrow) + '</div>' +
+      (p.eyebrow ? '<div class="eyebrow" data-anim="fade"' + d(520) + '>' +
+        esc(p.eyebrow) + '</div>' : '') +
       '<div class="layer">' +
         '<div class="verse">' + verse + '</div>' +
         '<p class="ivbody" data-anim="up"' + d(1180) + '>' + esc(p.body) + '</p>' +
         '<div class="seal"><span class="xi-seal" data-anim="seal"' + d(1450) + '>囍</span></div>' +
-        '<div class="dt" data-anim="up"' + d(1620) + '>' +
-          esc(W.dateCn) + '　' + esc(W.week) + '</div>' +
         '<div class="sign" data-anim="up"' + d(1760) + '>' + esc(p.sign) + '</div>' +
       '</div>';
   };
@@ -155,21 +154,27 @@
       '<div class="calgrid">' + cells + '</div>' +
       '<div class="calfoot">' +
         '<div class="r1">' + esc(W.week) + '　' + esc(W.lunar) + '</div>' +
-        '<div class="r2">' + esc(W.timeText) + '　·　' + esc(W.tips) + '</div>' +
+        '<div class="r2">' + esc(W.tips) + '</div>' +
       '</div>';
   }
 
-  T.calendar = function (p) {
+  T.vow = function (p) {
     var q = p.photos || [];
     var lines = (p.lines || []).map(function (t, i) {
-      return '<div class="cl" data-anim="up"' + d(1500 + i * 150) + '>' + esc(t) + '</div>';
+      return '<div class="cl" data-anim="up"' + d(1000 + i * 170) + '>' + esc(t) + '</div>';
     }).join('');
     return '' +
-      '<div class="eyebrow" data-anim="fade"' + d(240) + '>' + esc(p.eyebrow) + '</div>' +
+      (p.eyebrow ? '<div class="eyebrow" data-anim="fade"' + d(240) + '>' +
+        esc(p.eyebrow) + '</div>' : '') +
       '<div class="ph cala card par" data-anim="tilt" style="--pm:20px;--d:260ms">' + img(q[0]) + '</div>' +
       '<div class="ph calb card par" data-anim="tilt" style="--pm:-14px;--d:480ms">' + img(q[1]) + '</div>' +
-      '<div class="calwrap" data-anim="up"' + d(900) + '>' + calendarHTML() + '</div>' +
-      '<div class="clines">' + lines + '</div>';
+      '<div class="vowbox">' +
+        '<i class="rule c" style="width:38px" data-anim="rule"' + d(880) + '></i>' +
+        '<div class="clines">' + lines + '</div>' +
+        '<span class="xi-seal" data-anim="seal"' + d(1760) + '>囍</span>' +
+        (p.sign ? '<div class="vsign" data-anim="up"' + d(1900) + '>' +
+          esc(p.sign) + '</div>' : '') +
+      '</div>';
   };
 
   /* ---------------- 6/7 地址 ---------------- */
@@ -228,10 +233,6 @@
           '</div>' +
           (calls ? '<div class="callrow">' + calls + '</div>' : '') +
         '</div>' +
-        '<div class="whenrow">' +
-          '<div class="w1" data-anim="up"' + d(1050) + '>' + esc(W.dateText) + '　' + esc(W.week) + '</div>' +
-          '<div class="w2" data-anim="up"' + d(1180) + '>' + esc(W.lunar) + '　' + esc(W.timeText) + '</div>' +
-        '</div>' +
         '<div class="mapnote" data-anim="fade"' + d(1340) + '>' + esc(p.note) + '</div>' +
       '</div>';
   };
@@ -246,6 +247,7 @@
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
       '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
+      '<div class="calwrap" data-anim="up"' + d(760) + '>' + calendarHTML() + '</div>' +
       '<div class="efoot">' +
         '<div class="elines">' + lines + '</div>' +
         '<i class="rule c" style="width:44px" data-anim="rule"' + d(1600) + '></i>' +
