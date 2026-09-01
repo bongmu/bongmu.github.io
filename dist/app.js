@@ -244,7 +244,6 @@
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
       '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
-      '<div class="calwrap" data-anim="up"' + d(760) + '>' + calendarHTML() + '</div>' +
       '<div class="efoot">' +
         '<div class="elines">' + lines + '</div>' +
         '<i class="rule c" style="width:44px" data-anim="rule"' + d(1600) + '></i>' +
