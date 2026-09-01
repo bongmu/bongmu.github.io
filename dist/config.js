@@ -121,7 +121,7 @@ window.INVITE = {
     { type: 'ending',
       photo: { src: 'assets/photos/06.jpg', focus: '50% 26%' },
       bigTitle: '好久不见，婚礼见！',
-      lines: ['我们在这一天等你', '一起等一场烟花'],
+      lines: [],
       sign: '敬请光临',
       dwell: 14000
     }
