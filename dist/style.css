@@ -132,13 +132,15 @@ a{color:inherit;text-decoration:none}
 .pg-cover .ph.hero{
   left:22px;right:22px;width:auto;
   top:calc(var(--safe-t) + 122px);
-  /* 高度由照片真实比例决定，最多占 52%：不拉伸、也不会裁掉人 */
-  height:auto;aspect-ratio:var(--ar1,.75);max-height:52%;
+  /* 高度写死、照片用 cover+focus 裁切（脸的位置在 config.js 的 focus 里调）。
+     千万别用 aspect-ratio 反推高度：一旦高度被 max-height 钳住，
+     浏览器会连宽度一起钳小，left/right 过约束后 right 被丢掉，整框偏左不居中 */
+  height:47%;
   border-radius:6px;
   box-shadow:0 18px 40px -20px rgba(122,42,34,.5);
 }
 /* 竖版照片按比例算出来会超高，靠 max-height 收住，此时用宽度反推更稳 */
-.pg-cover.ar1-land .ph.hero{max-height:42%}
+.pg-cover.ar1-land .ph.hero{height:42%}
 .pg-cover .ph.hero::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(168,30,23,.10),rgba(168,30,23,0) 26%);
