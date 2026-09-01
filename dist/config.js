@@ -15,8 +15,6 @@ window.INVITE = {
   couple: {
     groom:   '秦钰杰',
     bride:   '吴雅男',
-    groomEn: 'YUJIE',
-    brideEn: 'YANAN',
     shareTitle: '秦钰杰 & 吴雅男 · 婚礼邀请函',
     shareDesc:  '2026.10.06　诚邀您来见证我们的幸福'
   },
@@ -91,7 +89,6 @@ window.INVITE = {
         { src: 'assets/photos/09.jpg', focus: '50% 40%' },
         { src: 'assets/photos/08.jpg', focus: '50% 30%' }
       ],
-      eyebrow: 'OUR STORY',
       title: '我们的日常',
       text: '从一句「你好」\n到「我愿意」'
     },
@@ -101,7 +98,6 @@ window.INVITE = {
       photo: { src: 'assets/photos/05.jpg', focus: '50% 28%' },
       title: '距婚礼还有',
       passed: '我们已经携手',
-      en: 'You are the beat of my heart,\nthe rhythm of my soul.',
       cn: '今生佳偶天成\n未来风雨同行'
     },
 
@@ -111,7 +107,6 @@ window.INVITE = {
         { src: 'assets/photos/06.jpg', focus: '50% 28%' },
         { src: 'assets/photos/07.jpg', focus: '50% 28%' }
       ],
-      eyebrow: 'OUR VOW',
       lines: ['愿我们的爱情', '如秋日的阳光', '岁岁年年', '相伴相守'],
       sign: '此情可待'
     },
@@ -119,7 +114,6 @@ window.INVITE = {
     /* ---- 6/7 婚礼地址 ---- */
     { type: 'address',
       photo: { src: 'assets/photos/02.jpg', focus: '50% 34%' },
-      eyebrow: 'WEDDING ADDRESS',
       note: '我们等你'
     },
 

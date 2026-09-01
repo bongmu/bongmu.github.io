@@ -91,7 +91,6 @@
   T.gallery = function (p) {
     var q = p.photos || [];
     return '' +
-      '<div class="eyebrow" data-anim="fade"' + d(240) + '>' + esc(p.eyebrow) + '</div>' +
       '<div class="ph ga card par" data-anim="tilt" style="--pm:26px;--d:420ms">' + img(q[0]) + '</div>' +
       '<div class="ph gb card par" data-anim="tilt" style="--pm:-18px;--d:700ms">' + img(q[1]) + '</div>' +
       '<div class="ph gc card par" data-anim="tilt" style="--pm:20px;--d:960ms">' + img(q[2]) + '</div>' +
@@ -121,7 +120,6 @@
         '<div data-anim="left"' + d(940) + '>' + u('cdS', '秒') + '</div>' +
       '</div>' +
       '<div class="quote">' +
-        '<div class="qen" data-anim="up"' + d(1300) + '>' + esc(p.en) + '</div>' +
         '<div class="qcn" data-anim="up"' + d(1460) + '>' + esc(p.cn) + '</div>' +
       '</div>';
   };
@@ -216,7 +214,6 @@
 
     return '' +
       '<div class="ph band kb" style="--d:60ms">' + img(p.photo) + '</div>' +
-      '<div class="eyebrow" data-anim="fade"' + d(480) + '>' + esc(p.eyebrow) + '</div>' +
       '<div class="layer">' +
         '<div class="mapcard" data-anim="up"' + d(700) + '>' +
           '<div class="minimap">' + miniMapSVG() + '<div class="pin"><b></b><i></i></div></div>' +

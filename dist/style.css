@@ -277,7 +277,7 @@ a{color:inherit;text-decoration:none}
 }
 .pg-countdown .u .c{font-family:var(--kai);font-size:12.5px;color:var(--ink-soft)}
 .pg-countdown .bigxi{
-  position:absolute;z-index:3;right:9%;top:50%;
+  position:absolute;z-index:3;right:9%;top:56%;
   font-family:var(--kai);font-size:clamp(70px,21vw,100px);line-height:.9;
   color:var(--red);opacity:.9;
 }
@@ -290,8 +290,8 @@ a{color:inherit;text-decoration:none}
   letter-spacing:.04em;color:var(--ink-fade);white-space:pre-line;
 }
 .pg-countdown .qcn{
-  font-family:var(--kai);font-size:clamp(15px,4.4vw,17px);line-height:1.9;
-  letter-spacing:.14em;text-indent:.14em;color:var(--red-mid);white-space:pre-line;
+  font-family:var(--kai);font-size:clamp(16px,4.9vw,19px);line-height:2;
+  letter-spacing:.16em;text-indent:.16em;color:var(--red-mid);white-space:pre-line;
 }
 
 /* =====================  5/7 婚礼时间（日历）  ===================== */
@@ -419,11 +419,36 @@ a{color:inherit;text-decoration:none}
   font-size:clamp(25px,7.4vw,31px);letter-spacing:.08em;text-indent:.08em;
   color:var(--red);
 }
-/* 暗底上的日历卡：像一张真请柬压在夜色里 */
+/* 暗底上的日历卡：磨砂半透明，烟花能从卡片后面透出来。
+   位置压到 44%，避开照片里两个人的头 */
 .pg-ending .calwrap{
-  left:8%;right:8%;top:calc(var(--safe-t) + 100px);
-  box-shadow:0 22px 46px -18px rgba(0,0,0,.66);
+  left:11%;right:11%;top:46%;
+  background:rgba(30,8,10,.30);
+  -webkit-backdrop-filter:blur(7px) saturate(1.15);
+  backdrop-filter:blur(7px) saturate(1.15);
+  border:1px solid rgba(255,241,230,.26);
+  box-shadow:0 20px 44px -22px rgba(0,0,0,.7);
+  padding:10px 11px 8px;
 }
+/* 卡片内的字全部反白 */
+.pg-ending .calhead{color:#FFF1E6;margin-bottom:8px}
+.pg-ending .calhead .m{font-size:25px}
+.pg-ending .calhead .s{color:rgba(255,241,230,.55)}
+.pg-ending .calgrid .w{color:rgba(255,241,230,.45);padding-bottom:3px}
+.pg-ending .calgrid .d{color:rgba(255,241,230,.88);height:20px;font-size:11.5px}
+.pg-ending .calgrid .d.off{color:rgba(255,241,230,.20)}
+.pg-ending .calgrid .d.on{color:#fff}
+.pg-ending .calgrid .d.on::before{
+  width:22px;height:22px;margin:-11px 0 0 -11px;
+  background:var(--red-lt);box-shadow:0 4px 14px -3px rgba(217,86,74,.95);
+}
+.pg-ending .calgrid .d.on::after{border-color:rgba(255,241,230,.5)}
+.pg-ending .calfoot{
+  margin-top:8px;padding-top:8px;
+  border-top:1px solid rgba(255,241,230,.20);gap:3px;
+}
+.pg-ending .calfoot .r1{color:#FFF1E6;font-size:13px}
+.pg-ending .calfoot .r2{color:rgba(255,241,230,.6);font-size:11px}
 .pg-ending .efoot{
   position:absolute;z-index:5;left:0;right:0;bottom:calc(var(--safe-b) + 34px);
   display:flex;flex-direction:column;align-items:center;gap:9px;
