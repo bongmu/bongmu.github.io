@@ -76,7 +76,9 @@ a{color:inherit;text-decoration:none}
 
 /* 遮罩 */
 .scrim{position:absolute;inset:0;z-index:1;pointer-events:none}
-.scrim.dark{background:linear-gradient(180deg,rgba(24,20,16,.52) 0%,rgba(24,20,16,.30) 34%,rgba(24,20,16,.44) 64%,rgba(24,20,16,.70) 100%)}
+.scrim.dark{background:
+  radial-gradient(124% 44% at 50% 56%,rgba(18,14,10,.50),rgba(18,14,10,0) 74%),
+  linear-gradient(180deg,rgba(24,20,16,.52) 0%,rgba(24,20,16,.30) 34%,rgba(24,20,16,.44) 64%,rgba(24,20,16,.70) 100%)}
 .scrim.paper{background:linear-gradient(180deg,rgba(252,249,244,.90),rgba(252,249,244,.82) 45%,rgba(252,249,244,.93))}
 .scrim.night{background:
   linear-gradient(180deg,rgba(18,16,26,.74) 0%,rgba(20,17,26,.52) 38%,rgba(16,14,22,.66) 72%,rgba(12,10,18,.86) 100%),
@@ -193,12 +195,26 @@ a{color:inherit;text-decoration:none}
 .pg-verse .orn .rule{width:34px}
 .pg-verse .orn .dot{width:4px;height:4px;border-radius:50%;background:var(--gold-lt)}
 
-/* =====================  单图页  ===================== */
-.pg-single .frame{top:9%;height:50%;width:70%}
-.pg-single.al-left  .frame{left:0;border-radius:0 150px 150px 0/0 96px 96px 0}
-.pg-single.al-right .frame{right:0;border-radius:150px 0 0 150px/96px 0 0 96px}
-.pg-single.al-left  .offline{top:calc(9% + 18px);left:18px;height:50%;width:70%;border-radius:0 150px 150px 0/0 96px 96px 0}
-.pg-single.al-right .offline{top:calc(9% + 18px);right:18px;height:50%;width:70%;border-radius:150px 0 0 150px/96px 0 0 96px}
+/* =====================  单图页  =====================
+   框体由照片真实宽高比 --ar1 决定，底边对齐，向上生长：
+   竖版照片是高拱门，横版照片是宽方框，都不会被裁掉半张脸 */
+.pg-single .frame,
+.pg-single .offline{
+  top:auto;bottom:39%;
+  width:70%;height:auto;
+  aspect-ratio:var(--ar1,.75);
+  max-height:54%;
+}
+.pg-single.ar1-land .frame,
+.pg-single.ar1-land .offline{width:92%}
+
+.pg-single.al-left  .frame,.pg-single.al-left  .offline{left:0;border-radius:0 150px 150px 0/0 96px 96px 0}
+.pg-single.al-right .frame,.pg-single.al-right .offline{right:0;border-radius:150px 0 0 150px/96px 0 0 96px}
+/* 横版照片用干净的直角框，圆拱在扁框上会很怪 */
+.pg-single.ar1-land.al-left  .frame,.pg-single.ar1-land.al-left  .offline{border-radius:0 10px 10px 0}
+.pg-single.ar1-land.al-right .frame,.pg-single.ar1-land.al-right .offline{border-radius:10px 0 0 10px}
+.pg-single.al-left  .offline{transform:translate(18px,18px)}
+.pg-single.al-right .offline{transform:translate(-18px,18px)}
 
 .pg-single .copy{
   position:absolute;left:8%;right:8%;bottom:calc(var(--safe-b) + 9%);
@@ -212,19 +228,24 @@ a{color:inherit;text-decoration:none}
 .copy .body{margin-top:3px}
 
 /* =====================  双图页  ===================== */
-.pg-duo .fa{left:0;top:6%;width:58%;height:40%;border-radius:0 8px 8px 0}
-.pg-duo .fb{right:8%;top:29%;width:40%;height:28%;border-radius:8px}
-.pg-duo .offline{right:calc(8% - 13px);top:calc(29% + 15px);width:40%;height:28%;border-radius:8px}
+.pg-duo .fa{left:0;bottom:45%;width:58%;height:auto;aspect-ratio:var(--ar1,.75);max-height:45%;border-radius:0 8px 8px 0}
+.pg-duo.ar1-land .fa{width:72%}
+.pg-duo .fb,.pg-duo .offline{right:11%;bottom:33%;width:40%;height:auto;aspect-ratio:var(--ar2,.75);max-height:33%;border-radius:8px}
+.pg-duo.ar2-land .fb,.pg-duo.ar2-land .offline{width:52%}
+.pg-duo .offline{transform:translate(-13px,15px)}
 .pg-duo .copy{
   position:absolute;left:9%;right:9%;bottom:calc(var(--safe-b) + 8%);
   display:flex;flex-direction:column;gap:11px;align-items:flex-start;text-align:left;
 }
 
 /* =====================  拼贴页  ===================== */
-.pg-collage .fa{left:5%;top:6%;width:45%;height:31%;border-radius:6px}
-.pg-collage .fb{right:5%;top:15%;width:37%;height:25%;border-radius:6px}
-.pg-collage .fc{left:24%;top:39%;width:44%;height:25%;border-radius:6px}
-.pg-collage .offline{left:calc(5% - 9px);top:calc(6% + 15px);width:45%;height:31%;border-radius:6px}
+.pg-collage .fa,.pg-collage .offline{left:5%;bottom:51%;width:45%;height:auto;aspect-ratio:var(--ar1,.75);max-height:34%;border-radius:6px}
+.pg-collage.ar1-land .fa,.pg-collage.ar1-land .offline{width:58%}
+.pg-collage .fb{right:5%;bottom:56%;width:37%;height:auto;aspect-ratio:var(--ar2,.75);max-height:28%;border-radius:6px}
+.pg-collage.ar2-land .fb{width:48%}
+.pg-collage .fc{left:24%;bottom:31%;width:44%;height:auto;aspect-ratio:var(--ar3,.75);max-height:28%;border-radius:6px}
+.pg-collage.ar3-land .fc{width:56%}
+.pg-collage .offline{transform:translate(-9px,15px)}
 .pg-collage .copy{
   position:absolute;left:9%;right:9%;bottom:calc(var(--safe-b) + 7%);
   display:flex;flex-direction:column;gap:11px;align-items:center;text-align:center;

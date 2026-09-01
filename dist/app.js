@@ -283,12 +283,30 @@
     }).join('');
     stage.innerHTML = html;
     pages = [].slice.call(stage.querySelectorAll('.page'));
+    pages.forEach(measure);
 
     // 进度点
     dotsBox.innerHTML = pages.map(function () { return '<i></i>'; }).join('');
 
     // 标题 & 分享信息
     document.title = C.shareTitle || '婚礼邀请函';
+  }
+
+  /* 量出每张有框照片的真实比例：--ar1/--ar2/--ar3 + arN-land
+     这样竖版照片得到高框、横版照片得到宽框，谁都不会被裁掉半边 */
+  function measure(page) {
+    [].forEach.call(page.querySelectorAll('.ph'), function (box, k) {
+      var im = box.querySelector('img');
+      if (!im) return;
+      function apply() {
+        if (!im.naturalWidth || !im.naturalHeight) return;
+        var ar = im.naturalWidth / im.naturalHeight;
+        page.style.setProperty('--ar' + (k + 1), ar.toFixed(4));
+        page.classList.toggle('ar' + (k + 1) + '-land', ar > 1.05);
+      }
+      if (im.complete) apply();
+      else im.addEventListener('load', apply, { once: true });
+    });
   }
 
   /* ---------------- 开场加载 ---------------- */
