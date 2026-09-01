@@ -355,6 +355,7 @@
   }
 
   function initMusic() {
+    audio.preload = 'metadata';        // 3.6MB 不跟照片抢带宽，点开就能播
     audio.src = M.src || '';
     audio.loop = M.loop !== false;
     mStatus = document.getElementById('mStatus');
@@ -373,10 +374,11 @@
     }
     if (window.WeixinJSBridge) wxPlay();
     else document.addEventListener('WeixinJSBridgeReady', wxPlay, false);
-    ['touchstart', 'pointerdown', 'mousedown', 'keydown'].forEach(function (ev) {
-      document.addEventListener(ev, function once() {   // 3) 兜底：第一次碰屏幕
-        document.removeEventListener(ev, once, true);
-        if (!playing) tryPlay();
+    // 3) 兜底：任何一个用户动作都试一次，直到播起来为止
+    ['touchstart', 'touchend', 'pointerdown', 'mousedown', 'keydown', 'scroll'].forEach(function (ev) {
+      document.addEventListener(ev, function again() {
+        if (playing) { document.removeEventListener(ev, again, true); return; }
+        tryPlay();
       }, true);
     });
     document.addEventListener('visibilitychange', function () {
@@ -390,12 +392,44 @@
 
   function pageH() { return stage.clientHeight || window.innerHeight; }
 
+  /* iOS 上地址栏收起会改变 100dvh，整屏吸附容器跟着抖、甚至卡住。
+     所以开场量一次高度写成固定 px，之后只在真正转屏时才更新。 */
+  var lockedW = 0, lockedH = 0;
+  function lockHeight() {
+    var h = window.innerHeight, w = window.innerWidth;
+    // 只有宽度变了（转屏）或高度变化超过 120px（不是地址栏那点伸缩）才重设
+    if (w === lockedW && Math.abs(h - lockedH) < 120) return;
+    lockedW = w; lockedH = h;
+    document.documentElement.style.setProperty('--app-h', h + 'px');
+    if (cur > 0) stage.scrollTop = cur * h;
+  }
+
+  /* iOS Safari 上 scroll-snap:mandatory 会把 scrollTo({behavior:'smooth'})
+     按回去，页面就像卡死了。所以这里自己做补间，动画期间把吸附临时关掉。 */
+  var animRaf = 0;
   function goto(i) {
     i = clamp(i, 0, pages.length - 1);
+    var from = stage.scrollTop, to = i * pageH();
+    if (Math.abs(to - from) < 2) return;
+
     locked = true;
     clearTimeout(lockT);
-    lockT = setTimeout(function () { locked = false; }, 1100);
-    stage.scrollTo({ top: i * pageH(), behavior: 'smooth' });
+    if (animRaf) cancelAnimationFrame(animRaf);
+    stage.style.scrollSnapType = 'none';
+
+    var t0 = 0, DUR = 760;
+    function step(ts) {
+      if (!t0) t0 = ts;
+      var k = Math.min(1, (ts - t0) / DUR);
+      // easeInOutCubic，和 CSS 的手感接近
+      var e = k < 0.5 ? 4 * k * k * k : 1 - Math.pow(-2 * k + 2, 3) / 2;
+      stage.scrollTop = from + (to - from) * e;
+      if (k < 1) { animRaf = requestAnimationFrame(step); return; }
+      animRaf = 0;
+      stage.style.scrollSnapType = '';       // 交还给吸附
+      lockT = setTimeout(function () { locked = false; }, 140);
+    }
+    animRaf = requestAnimationFrame(step);
   }
 
   function setAuto(v) {
@@ -630,13 +664,15 @@
     initEdit();
     initMusic();
 
+    lockHeight();
+    window.addEventListener('resize', lockHeight);
     stage.scrollTop = 0;
     stage.addEventListener('scroll', onScroll, { passive: true });
     ['touchstart', 'wheel', 'keydown'].forEach(function (ev) {
       stage.addEventListener(ev, userInterrupt, { passive: true });
     });
     window.addEventListener('orientationchange', function () {
-      setTimeout(function () { stage.scrollTo({ top: Math.max(0, cur) * pageH() }); }, 260);
+      setTimeout(lockHeight, 280);
     });
 
     preload(function () {

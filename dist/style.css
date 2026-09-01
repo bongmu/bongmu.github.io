@@ -40,20 +40,25 @@ a{color:inherit;text-decoration:none}
 /* ---------- 舞台 / 分屏 ---------- */
 #stage{
   position:relative;
-  height:100vh;height:100dvh;
+  /* --app-h 由 JS 锁成固定 px：iOS 地址栏伸缩不再让整屏吸附抖动/卡死 */
+  height:100vh;height:100dvh;height:var(--app-h,100dvh);
   overflow-y:scroll;overflow-x:hidden;
-  scroll-snap-type:y mandatory;
-  -webkit-overflow-scrolling:touch;
+  scroll-snap-type:y proximity;   /* mandatory 在 iOS 上会顶掉程序滚动 */
   scrollbar-width:none;
 }
 #stage::-webkit-scrollbar{display:none}
 
 .page{
-  position:relative;height:100%;
+  position:relative;
+  height:100vh;height:100dvh;height:var(--app-h,100dvh);
   scroll-snap-align:start;scroll-snap-stop:always;
   overflow:hidden;isolation:isolate;
-  /* 底色永远是淡粉：任何时候露边都不会白屏 */
-  background:linear-gradient(180deg,var(--blush-3) 0%,var(--blush) 42%,var(--blush-2) 100%);
+  /* 底色永远是淡粉，且带柔光层次：纯色会显得平，这样更有质感 */
+  background:
+    radial-gradient(128% 62% at 50% -8%,rgba(255,255,255,.85) 0%,rgba(255,252,250,0) 58%),
+    radial-gradient(88% 48% at 88% 104%,rgba(224,168,152,.22) 0%,rgba(224,168,152,0) 62%),
+    radial-gradient(80% 44% at 6% 96%,rgba(217,86,74,.10) 0%,rgba(217,86,74,0) 60%),
+    linear-gradient(168deg,var(--blush-3) 0%,var(--blush) 46%,var(--blush-2) 100%);
 }
 /* 纸纹 */
 .page::after{
@@ -70,10 +75,10 @@ a{color:inherit;text-decoration:none}
 
 /* ---------- 图片基元 ---------- */
 .ph{position:absolute;overflow:hidden;z-index:1;background:var(--blush-2)}
-.ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.14);will-change:transform}
+.ph img{width:100%;height:100%;object-fit:cover;transform:scale(1.07);will-change:transform}
 
 .bleed{position:absolute;inset:0;z-index:0;overflow:hidden;background:var(--blush-2)}
-.bleed img{width:100%;height:100%;object-fit:cover;transform:scale(1.12);will-change:transform}
+.bleed img{width:100%;height:100%;object-fit:cover;transform:scale(1.06);will-change:transform}
 .bleed.dim img{filter:brightness(.72) saturate(1.04)}
 
 /* 白边相纸 */
@@ -126,10 +131,14 @@ a{color:inherit;text-decoration:none}
 /* 照片是中间一块，上下留淡粉，和婚呗一致 */
 .pg-cover .ph.hero{
   left:22px;right:22px;width:auto;
-  top:calc(var(--safe-t) + 128px);height:47%;
+  top:calc(var(--safe-t) + 122px);
+  /* 高度由照片真实比例决定，最多占 52%：不拉伸、也不会裁掉人 */
+  height:auto;aspect-ratio:var(--ar1,.75);max-height:52%;
   border-radius:6px;
   box-shadow:0 18px 40px -20px rgba(122,42,34,.5);
 }
+/* 竖版照片按比例算出来会超高，靠 max-height 收住，此时用宽度反推更稳 */
+.pg-cover.ar1-land .ph.hero{max-height:42%}
 .pg-cover .ph.hero::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(168,30,23,.10),rgba(168,30,23,0) 26%);
@@ -185,6 +194,7 @@ a{color:inherit;text-decoration:none}
 /* =====================  2/7 邀请函  ===================== */
 /* 照片从顶部满宽铺下来，底边融进淡粉 */
 .pg-invite .band{left:0;right:0;top:0;width:auto;height:46%;z-index:1}
+.pg-invite.ar1-land .band{height:38%}
 .pg-invite .band::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(251,239,233,.42) 0%,rgba(251,239,233,0) 18%,
@@ -340,6 +350,7 @@ a{color:inherit;text-decoration:none}
 
 /* =====================  6/7 地址  ===================== */
 .pg-address .band{left:0;right:0;top:0;width:auto;height:33%;z-index:1}
+.pg-address.ar1-land .band{height:28%}
 .pg-address .band::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(251,239,233,.42) 0%,rgba(251,239,233,0) 22%,
@@ -459,7 +470,7 @@ a{color:inherit;text-decoration:none}
 .ph img,.bleed img{transition:transform 2.5s var(--ease);transition-delay:var(--d,0ms)}
 .is-in .ph img,.is-in .bleed img{transform:scale(1)}
 .is-in .kb img{animation:kb 18s ease-in-out 1.5s infinite alternate}
-@keyframes kb{from{transform:scale(1)}to{transform:scale(1.09) translate(-1.2%,-1.6%)}}
+@keyframes kb{from{transform:scale(1)}to{transform:scale(1.05) translate(-1%,-1.2%)}}
 
 /* 视差 */
 .par{transform:translate3d(0,calc(var(--p,0) * var(--pm,20px)),0)}

@@ -5,7 +5,7 @@
 
 做四件事：
   1. 按 EXIF 方向把照片摆正（手机/相机竖拍的照片会带旋转标记）
-  2. 长边缩到 1600px —— 手机屏幕再高清也够用了
+  2. 长边缩到 2200px —— 3 倍高清屏放大看也不糊
   3. 存成渐进式 JPEG，质量 80，去掉 EXIF（体积能小 95% 以上）
   4. 统一成小写 .jpg —— GitHub Pages 区分大小写，.JPG 会 404
 
@@ -20,8 +20,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "photos-original")
 DST = os.path.join(ROOT, "dist", "assets", "photos")
 
-LONG_EDGE = 1600      # 长边像素
-QUALITY = 80          # JPEG 质量
+LONG_EDGE = 2200      # 长边像素（3x 高清屏也够锐）
+QUALITY = 82          # JPEG 质量
 EXTS = (".jpg", ".jpeg", ".png", ".webp", ".bmp", ".tif", ".tiff")
 
 os.makedirs(DST, exist_ok=True)

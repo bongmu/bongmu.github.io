@@ -7,7 +7,7 @@
     python tools/sync_meta.py
 
 顺便会用第一张照片重新裁一张 500x500 的方形缩略图 assets/img/share.jpg
-（微信缩略图建议用方图，300px 以上）。
+（微信缩略图要方图，300px 以上，这里给 800px）。
 """
 import io
 import os
@@ -81,7 +81,7 @@ try:
         left = (w - side) // 2
         box = (left, 0, left + side, side)
     os.makedirs(os.path.dirname(SHARE), exist_ok=True)
-    im.crop(box).resize((500, 500), Image.LANCZOS).save(
+    im.crop(box).resize((800, 800), Image.LANCZOS).save(
         SHARE, "JPEG", quality=84, optimize=True, progressive=True)
     thumb = "%dKB" % (os.path.getsize(SHARE) // 1024)
 except Exception as e:

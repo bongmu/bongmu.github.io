@@ -120,7 +120,7 @@ window.INVITE = {
     { type: 'address',
       photo: { src: 'assets/photos/02.jpg', focus: '50% 34%' },
       eyebrow: 'WEDDING ADDRESS',
-      note: '导航过来时若堵车，别急，我们等你'
+      note: '我们等你'
     },
 
     /* ---- 7/7 结尾（烟花页） ---- */
