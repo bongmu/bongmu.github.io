@@ -238,23 +238,22 @@
 
   /* ---------------- 7/7 结尾 + 回执（烟花页） ---------------- */
   T.ending = function (p) {
+    var lines = (p.lines || []).map(function (t, k) {
+      return '<div class="el" data-anim="up"' + d(900 + k * 220) + '>' + esc(t) + '</div>';
+    }).join('');
     return '' +
       '<div class="bleed dim wipe kb">' + img(p.photo) + '</div>' +
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
       '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
-      '<div class="rsvp">' +
-        '<div class="rt" data-anim="fade"' + d(900) + '>' + esc(p.rsvpTitle) + '</div>' +
-        '<input class="f" id="rsvpName" type="text" maxlength="20" ' +
-          'placeholder="' + esc(p.namePh) + '" data-anim="up"' + d(1020) + '>' +
-        '<input class="f" id="rsvpCount" type="number" min="1" max="99" inputmode="numeric" ' +
-          'placeholder="' + esc(p.countPh) + '" data-anim="up"' + d(1120) + '>' +
-        '<button class="go" id="rsvpGo" data-anim="up"' + d(1220) + '>' + esc(p.submit) + '</button>' +
-      '</div>' +
-      '<div class="esign">' +
-        '<div class="enames" data-anim="fade"' + d(1500) + '>' +
+      '<div class="efoot">' +
+        '<div class="elines">' + lines + '</div>' +
+        '<i class="rule c" style="width:44px" data-anim="rule"' + d(1600) + '></i>' +
+        '<div class="enames" data-anim="up"' + d(1720) + '>' +
           esc(C.groom) + '　' + esc(C.bride) + '</div>' +
-        '<div class="edate" data-anim="fade"' + d(1620) + '>' + esc(W.dateText) + '</div>' +
+        '<div class="edate" data-anim="up"' + d(1840) + '>' +
+          esc(W.dateText) + '　' + esc(V.name) + '</div>' +
+        '<div class="etag" data-anim="fade"' + d(2000) + '>' + esc(p.sign) + '</div>' +
       '</div>';
   };
 
@@ -328,9 +327,11 @@
   var musicBox = document.getElementById('music');
   var playing = false, fadeT;
 
+  var mStatus;
   function setPlaying(v) {
     playing = v;
     musicBox.classList.toggle('playing', v);
+    if (mStatus) mStatus.textContent = v ? '音乐正在播放中…' : '音乐已暂停　点此播放';
   }
   function fadeIn() {
     clearInterval(fadeT);
@@ -356,9 +357,10 @@
   function initMusic() {
     audio.src = M.src || '';
     audio.loop = M.loop !== false;
-    document.getElementById('mTitle').textContent = M.title || '背景音乐';
-    document.getElementById('mArtist').textContent = M.artist || '';
-    musicBox.classList.add('open');
+    mStatus = document.getElementById('mStatus');
+    document.getElementById('mTitle').textContent =
+      (M.title || '背景音乐') + (M.artist ? ' - ' + M.artist : '');
+    setPlaying(false);
 
     audio.addEventListener('play', function () { setPlaying(true); });
     audio.addEventListener('pause', function () { setPlaying(false); });
@@ -383,8 +385,8 @@
   }
 
   /* ---------------- 分屏 / 动画 / 自动滚动 ---------------- */
-  var cur = -1, auto = P.autoScroll !== false, dwellT, lockT, locked = false, warned = false;
-  var autoBtn = document.getElementById('autoBtn');
+  var cur = -1, auto = P.autoScroll !== false, dwellT, lockT, locked = false;
+  var idleT, AUTO_ON = P.autoScroll !== false;
 
   function pageH() { return stage.clientHeight || window.innerHeight; }
 
@@ -396,24 +398,16 @@
     stage.scrollTo({ top: i * pageH(), behavior: 'smooth' });
   }
 
-  function setAuto(v, silent) {
+  function setAuto(v) {
     auto = v;
-    autoBtn.classList.toggle('off', !v);
-    autoBtn.setAttribute('aria-label', v ? '暂停自动滚动' : '开始自动滚动');
     clearTimeout(dwellT);
-    if (v) {
-      if (cur >= pages.length - 1) goto(0);
-      else schedule();
-      if (!silent) toast('自动滚动已开启');
-    } else if (!silent) {
-      toast('已暂停自动滚动');
-    }
+    if (v) schedule();
   }
 
   function schedule() {
     clearTimeout(dwellT);
     if (!auto || cur < 0) return;
-    if (cur >= pages.length - 1) { setAuto(false, true); return; }
+    if (cur >= pages.length - 1) { auto = false; return; }   // 最后一页停住，不循环
     var conf = (CFG.pages || [])[cur] || {};
     dwellT = setTimeout(function () { if (auto) goto(cur + 1); },
                         conf.dwell || P.dwell || 7200);
@@ -455,12 +449,15 @@
     });
   }
 
+  /* 手动滑动时先让开，停手 10 秒后自动接着播 —— 所以不需要开关按钮 */
   function userInterrupt() {
-    if (locked) return;
-    if (auto) {
-      setAuto(false, true);
-      if (!warned) { warned = true; toast('已暂停自动滚动 · 右上角可继续'); }
-    }
+    if (locked || !AUTO_ON) return;
+    auto = false;
+    clearTimeout(dwellT);
+    clearTimeout(idleT);
+    idleT = setTimeout(function () {
+      if (cur < pages.length - 1) setAuto(true);
+    }, 10000);
   }
 
   /* ---------------- 倒计时 ---------------- */
@@ -511,44 +508,6 @@
     btn.addEventListener('click', function () {
       var txt = (V.name || '') + ' ' + (V.hall || '') + '\n' + (V.address || '');
       copyText(txt, function () { toast('地址已复制'); }, function () { toast('长按地址可复制'); });
-    });
-  }
-
-  /* ---------------- 回执 ----------------
-     静态站点没有后端，所以「提交」= 生成一条回执文本、复制到剪贴板，
-     再拉起短信发给新郎；发不出去也已经复制好了，粘给新人就行。 */
-  function initRsvp() {
-    var go = document.getElementById('rsvpGo');
-    if (!go) return;
-    var nameEl = document.getElementById('rsvpName');
-    var cntEl = document.getElementById('rsvpCount');
-
-    go.addEventListener('click', function () {
-      var nm = (nameEl.value || '').trim();
-      var ct = (cntEl.value || '').trim();
-      if (!nm) { nameEl.focus(); toast('请填一下您的称呼'); return; }
-      if (!ct) { cntEl.focus(); toast('请填一下出席人数'); return; }
-
-      var msg = '【婚礼回执】' + nm + '，' + ct + '人出席　'
-              + (W.dateText || '') + ' ' + (V.name || '');
-      var phone = ((V.contacts || [])[0] || {}).phone || '';
-
-      copyText(msg, function () { toast('回执已复制，发给新人即可'); },
-                    function () { toast('请长按输入框复制内容'); });
-
-      if (phone) {
-        var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        setTimeout(function () {
-          location.href = 'sms:' + phone + (iOS ? '&' : '?') + 'body=' + encodeURIComponent(msg);
-        }, 700);
-      }
-    });
-
-    // 键盘弹出会顶掉整屏滚动，收起后把当前屏拉回去
-    [nameEl, cntEl].forEach(function (el) {
-      el.addEventListener('blur', function () {
-        setTimeout(function () { stage.scrollTo({ top: cur * pageH(), behavior: 'smooth' }); }, 120);
-      });
     });
   }
 
@@ -665,7 +624,6 @@
     build();
     initCountdown();
     initCopy();
-    initRsvp();
     initEdit();
     initMusic();
 
@@ -674,10 +632,6 @@
     ['touchstart', 'wheel', 'keydown'].forEach(function (ev) {
       stage.addEventListener(ev, userInterrupt, { passive: true });
     });
-    autoBtn.addEventListener('click', function (e) {
-      e.stopPropagation(); warned = true; setAuto(!auto);
-    });
-    autoBtn.classList.toggle('off', !auto);
     window.addEventListener('orientationchange', function () {
       setTimeout(function () { stage.scrollTo({ top: Math.max(0, cur) * pageH() }); }, 260);
     });

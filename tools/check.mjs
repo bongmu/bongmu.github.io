@@ -47,8 +47,8 @@ const probe = `(()=>{const s=document.getElementById('stage'),a=document.getElem
     boot:getComputedStyle(document.getElementById('boot')).display,
     playing:!a.paused, t:+a.currentTime.toFixed(1), vol:+a.volume.toFixed(2),
     capsule:document.getElementById('music').className,
-    song:document.getElementById('mTitle').textContent+' / '+document.getElementById('mArtist').textContent,
-    autoBtn:document.getElementById('autoBtn').className,
+    song:document.getElementById('mTitle').textContent,
+    status:document.getElementById('mStatus').textContent,
     inPages:[...document.querySelectorAll('.page.is-in')].map(p=>p.dataset.i).join(',')})})()`;
 
 await sleep(4500); console.log('T+4.5s ', await evalJs(probe));
@@ -58,10 +58,11 @@ await sleep(7000); console.log('T+17.5s', await evalJs(probe));   // 应继续�
 // 模拟用户手动触摸 -> 自动滚动应暂停
 await evalJs(`document.getElementById('stage').dispatchEvent(new TouchEvent('touchstart',{bubbles:true}))`);
 await sleep(500);  console.log('after touch', await evalJs(probe));
-await sleep(9000); console.log('T+27s (应停在原屏)', await evalJs(probe));
+await sleep(6000); console.log('T+24s 停手6秒(应仍停住)', await evalJs(probe));
+await sleep(7000); console.log('T+31s 停手>10秒(应自动续播)', await evalJs(probe));
 
 // 结尾页烟花
-await evalJs(`(()=>{const s=document.getElementById('stage');s.scrollTo({top:10*s.clientHeight,behavior:'auto'});return 1})()`);
+await evalJs(`(()=>{const s=document.getElementById('stage');s.scrollTo({top:6*s.clientHeight,behavior:'auto'});return 1})()`);
 await sleep(5200);
 const shot = await send('Page.captureScreenshot', { format: 'png' });
 writeFileSync('.shots/ending-fw.png', Buffer.from(shot.result.data, 'base64'));

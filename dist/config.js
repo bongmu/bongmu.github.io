@@ -122,14 +122,11 @@ window.INVITE = {
       note: '导航过来时若堵车，别急，我们等你'
     },
 
-    /* ---- 7/7 结尾 + 回执（烟花页） ---- */
+    /* ---- 7/7 结尾（烟花页） ---- */
     { type: 'ending',
       photo: { src: 'assets/photos/08.jpg', focus: '50% 26%' },
       bigTitle: '好久不见，婚礼见！',
-      rsvpTitle: '期待您的到来',
-      namePh: '您的称呼',
-      countPh: '出席人数',
-      submit: '提 交',
+      lines: ['我们在这一天等你', '一起等一场烟花'],
       sign: '敬请光临',
       dwell: 14000
     }

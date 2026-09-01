@@ -47,23 +47,15 @@
 
 <!-- 右上角悬浮控件 -->
 <div class="hud" id="hud">
-  <button class="music" id="music" aria-label="播放/暂停音乐">
-    <span class="disc">
-      <i class="ring"></i>
-      <i class="hole">
-        <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-        <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg>
-      </i>
-    </span>
+  <button class="music" id="music" aria-label="播放或暂停音乐">
     <span class="mtext">
       <span class="mtitle" id="mTitle">背景音乐</span>
-      <span class="martist" id="mArtist"></span>
+      <span class="mstatus" id="mStatus">音乐正在播放中…</span>
     </span>
-  </button>
-
-  <button class="ctl" id="autoBtn" aria-label="暂停自动滚动">
-    <svg class="i-pause" viewBox="0 0 24 24"><path d="M7 5h4v14H7zM13 5h4v14h-4z"/></svg>
-    <svg class="i-play" viewBox="0 0 24 24"><path d="M8 5l12 7-12 7z"/></svg>
+    <span class="mart">
+      <img src="assets/img/share.jpg" alt="" width="500" height="500">
+      <span class="eq"><i></i><i></i><i></i><i></i></span>
+    </span>
   </button>
 </div>
 
