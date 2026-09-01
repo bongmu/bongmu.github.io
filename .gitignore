@@ -9,3 +9,5 @@ dev.log
 *.mp4
 .shots/
 photos-original/
+.shots/
+.shots-small/

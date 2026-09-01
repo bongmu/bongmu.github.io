@@ -1,59 +1,176 @@
-/* ═══════════════════════════════════════════════════════════
-   婚礼请帖 · 总配置（改这一个文件，五个模板全部同步）
-   ═══════════════════════════════════════════════════════════ */
-window.WEDDING = {
+/* =======================================================================
+   婚礼请柬 · 内容配置
+   ——————————————————————————————————————————————————————
+   这是你唯一需要改的文件。改完保存、刷新页面即可看到效果。
+   照片：把你的照片改名成 01.jpg ~ 09.jpg，覆盖 assets/photos/ 里的同名文件。
+        竖版 3:4 效果最好（例如 900×1200 / 1200×1600）。
+   ======================================================================= */
 
-  /* ★ 定稿开关：和对象商量好用哪个模板后，把编号填进来（"1"~"5"），
-     打开首页就会直接进入那一款，客人看不到选稿页；留空 = 显示五款选择页 */
-  finalTemplate: "",
+window.INVITE = {
 
-  /* ── 站点地址（分享链接 / 二维码用，换域名时改这里）── */
-  siteUrl: "https://qyj-tools.eu.cc/",
+  /* ---------- 新人 ---------- */
+  couple: {
+    groom:   '张沐辰',
+    bride:   '林知夏',
+    groomEn: 'MUCHEN',
+    brideEn: 'ZHIXIA',
+    // 页面标题 / 微信分享标题
+    shareTitle: '张沐辰 & 林知夏 · 婚礼邀请函',
+    shareDesc:  '2026.12.06　诚邀您来见证我们的幸福'
+  },
 
-  /* ── 新人姓名（所有模板自动替换）── */
-  groom: "秦钰杰",                    // 如：李承泽
-  bride: "吴雅男",                    // 如：王小雅
-  groomParents: "",                 // 敬邀落款（新郎父母名），留空不显示
+  /* ---------- 时间 ---------- */
+  wedding: {
+    // 婚礼时间（用于倒计时，务必写成这个格式，+08:00 是北京时间）
+    datetime: '2026-12-06T12:00:00+08:00',
+    dateText: '2026.12.06',
+    dateCn:   '二〇二六年十二月六日',
+    week:     '星期日',
+    // ⚠ 农历日期请自行核对后填写
+    lunar:    '农历十月廿七',
+    timeText: '中午 12:00',
+    // 入场提醒（邀请函页小字）
+    tips:     '请于 11:30 前入席'
+  },
 
-  /* ── 婚礼日期 ── */
-  dateISO: "2026-10-06",   // 吉时（倒计时用）
-  dateText: "2026年10月6日",
-  weekday:  "星期二",
-  lunarText:"农历八月廿六",
+  /* ---------- 地点 ---------- */
+  venue: {
+    name:    '西子湖四季酒店',
+    hall:    '三楼 · 揽月宴会厅',
+    address: '浙江省杭州市西湖区灵隐路 5 号',
+    // 高德坐标（GCJ-02）。在 https://lbs.amap.com/tools/picker 上取点后填这里
+    lng: 120.13502,
+    lat: 30.24473,
+    // 联系人
+    contacts: [
+      { name: '新郎 张沐辰', phone: '13800000001' },
+      { name: '新娘 林知夏', phone: '13800000002' }
+    ]
+  },
 
-  /* ── 婚礼地点 ── */
-  venue:   "陈庄村",
-  address: "陈庄村（沿乡道至学校路口，按路线图进村）",
-  /* 一键导航：https://lbs.amap.com/tools/picker 拾取坐标后填这里，
-     「一键导航」按钮自动出现；留空隐藏 */
-  lng: "113.89",
-  lat: "35.78",
-  poiName: "陈庄村",
+  /* ---------- 背景音乐 ---------- */
+  music: {
+    src:    'assets/music/he-ni-deng-yan-hua.mp3',
+    title:  '和你等烟花',
+    artist: '鹭卓',
+    // 是否循环播放
+    loop: true
+  },
 
-  /* ── 文案 ── */
-  coverSlogan: "诚 邀 您 见 证 我 们 的 幸 福 时 刻",
-  inviteLine1: "谨定于二〇二六年十月六日（农历八月廿六）",
-  inviteLine2: "为 新郎 与 新娘 举行婚礼",
-  inviteLine3: "谨备喜筵 · 恭候光临",
-  loveQuote: "春来无事，只为花忙；\n往后余生，请多指教。",
+  /* ---------- 播放设置 ---------- */
+  player: {
+    // 打开后是否自动逐屏滚动
+    autoScroll: true,
+    // 每屏停留时间（毫秒），单页可用 dwell 覆盖
+    dwell: 6800
+  },
 
-  /* ── 照片（替换 assets/photos/ 同名文件即可；加照片：放入 6.jpg 后加一行）── */
-  photos: [
-    { src: "assets/photos/1.jpg", caption: "", note: "人海茫茫，一眼就认定了你" },
-    { src: "assets/photos/2.jpg", caption: "", note: "把喜欢，慢慢熬成了爱" },
-    { src: "assets/photos/3.jpg", caption: "", note: "平凡的日子，有你都在发光" },
-    { src: "assets/photos/4.jpg", caption: "", note: "你点头那一刻，星星落进了眼里" },
-    { src: "assets/photos/5.jpg", caption: "", note: "往后余生，请多指教" },
-  ],
+  /* ---------- 页面内容 ----------
+     type 说明：
+       cover      封面
+       verse      纯文字诗页（背景是虚化照片）
+       single     一张大图 + 文案（align: 'left' | 'right'）
+       duo        两张错落图 + 文案
+       collage    三张拼贴图 + 文案
+       invite     邀请函正文
+       countdown  倒计时
+       map        地点与导航
+       ending     结尾
+     photo 里的 focus 是裁切焦点，人脸偏上就写 '50% 30%'
+  ------------------------------------------------------------------- */
+  pages: [
 
-  /* ── 背景音乐 ──────────────────────────────────────────────
-     两种填法都支持：
-     ① 本地文件（推荐，最稳）：放进 assets/music/ 后写相对路径
-     ② 在线直链：直接写 https 开头的 mp3 地址，如
-        music: "https://cdn.jsdelivr.net/gh/你的用户名/仓库@main/song.mp3"
-     在线链接注意：必须是 https、必须允许跨站引用（网易云/QQ音乐的分享
-     链接大多有防盗链，会放不出声）。音乐改成了「点开才加载」，
-     不会拖慢首屏，本地文件其实比外链更快更稳。
-     musicCredit: false 可隐藏底部署名（换成自己的歌时用） */
-  music: "assets/music/canon-in-d.mp3",
+    { type: 'cover',
+      photo: { src: 'assets/photos/01.jpg', focus: '50% 42%' },
+      eyebrow: 'WE ARE GETTING MARRIED',
+      hint: '上滑，看我们的故事',
+      dwell: 9000
+    },
+
+    { type: 'verse',
+      photo: { src: 'assets/photos/02.jpg', focus: '50% 40%' },
+      no: '序',
+      eyebrow: 'PROLOGUE',
+      lines: [
+        '春天的第一场雨',
+        '夏夜的第一颗星',
+        '冬日的第一场烟花',
+        '我都想和你一起等'
+      ]
+    },
+
+    { type: 'single', align: 'left',
+      photo: { src: 'assets/photos/03.jpg', focus: '50% 38%' },
+      no: '01', label: '初 见',
+      title: '那年人海里的一眼',
+      text: '后来才明白，那不是偶然。\n是许多个错过的路口，\n都朝着你的方向拐了个弯。'
+    },
+
+    { type: 'single', align: 'right',
+      photo: { src: 'assets/photos/04.jpg', focus: '50% 38%' },
+      no: '02', label: '心 动',
+      title: '你把普通的一天\n过成了节日',
+      text: '从此，路灯下的影子有了同伴，\n深夜的消息有了回音。'
+    },
+
+    { type: 'duo',
+      photos: [
+        { src: 'assets/photos/05.jpg', focus: '50% 35%' },
+        { src: 'assets/photos/06.jpg', focus: '50% 40%' }
+      ],
+      no: '03', label: '相 知',
+      title: '我们把爱藏在日常里',
+      text: '一起去过的三十七个地方，\n吵过的四次架，和好的四次，\n还有数不清的、只属于我们的笑点。'
+    },
+
+    { type: 'verse',
+      photo: { src: 'assets/photos/07.jpg', focus: '50% 40%' },
+      no: '誓', eyebrow: 'OUR VOW',
+      lines: [
+        '往后余生',
+        '风雪是你　平淡是你',
+        '清贫是你　荣华是你',
+        '目光所致　也是你'
+      ]
+    },
+
+    { type: 'collage',
+      photos: [
+        { src: 'assets/photos/08.jpg', focus: '50% 35%' },
+        { src: 'assets/photos/09.jpg', focus: '50% 40%' },
+        { src: 'assets/photos/01.jpg', focus: '50% 45%' }
+      ],
+      no: '04', label: '此 刻',
+      title: '我们决定\n把余生也交给彼此',
+      text: '所有的准备，都是为了这一天。'
+    },
+
+    { type: 'invite',
+      photo: { src: 'assets/photos/02.jpg', focus: '50% 40%' },
+      eyebrow: 'INVITATION',
+      title: '邀 请 函',
+      body: '谨定于以下佳期\n举行结婚典礼　敬备喜筵\n恭请　阁下光临'
+    },
+
+    { type: 'countdown',
+      photo: { src: 'assets/photos/06.jpg', focus: '50% 40%' },
+      eyebrow: 'COUNTDOWN',
+      title: '距离婚礼还有',
+      passed: '我们已经携手'
+    },
+
+    { type: 'map',
+      eyebrow: 'LOCATION',
+      title: '婚 礼 地 点',
+      note: '导航过来时若堵车，别急，我们等你。'
+    },
+
+    { type: 'ending',
+      photo: { src: 'assets/photos/05.jpg', focus: '50% 38%' },
+      lines: ['这 一 天', '我们想和最重要的人', '一起等一场烟花'],
+      sign: '敬请光临',
+      dwell: 12000
+    }
+
+  ]
 };

@@ -1,47 +1,126 @@
-# 婚礼请帖站
+# 婚礼邀请函 H5
 
-纯静态 H5 电子请帖。部署：**GitHub Pages（发布 dist/）+ Cloudflare DNS/CDN 加速**。
+整屏上滑的婚礼请柬，打开即自动播放，不用点任何「点击开启」的遮罩。
 
-## 文件结构
+线上地址：<https://qyj-tools.eu.cc/>
+
+---
+
+## 已经做好的功能
+
+| | |
+|---|---|
+| 打开即播 | 没有入场遮罩，图文动画立刻开始；音乐尽最大可能自动播放（见下方说明） |
+| 音乐胶囊 | 右上角常驻显示 **歌名 + 歌手**，唱片会转，点一下暂停 / 再点继续 |
+| 自动滚屏 | 每屏停留几秒自动翻到下一屏；**手一碰屏幕就暂停**，右上角 ▶ 按钮随时继续 |
+| 入场动画 | 每屏都有：照片揭幕 + 缓慢推近（Ken Burns）、文字逐行浮起、金线生长、滚动视差 |
+| 文案贴图 | 单图 / 双图 / 三图拼贴三种版式，文案都排在照片旁边 |
+| 邀请函页 | 新人姓名、公历农历、时间、酒店、宴会厅、入席提醒 + 囍字印章 |
+| 倒计时 | 实时到秒；婚礼过后自动变成「我们已经携手 N 天」 |
+| 地图页 | 手绘风格小地图 + 高德 / 腾讯 / 百度一键导航 + 复制地址 + 拨打新人电话 |
+| 结尾页 | 暮色天空 + Canvas 烟花（呼应《和你等烟花》），姓名日期落款 |
+| 其它 | 右侧页码、纸纹质感、刘海屏安全区、桌面端自动收成手机画框 |
+
+没有做广告推广页（按要求去掉了）。
+
+---
+
+## 怎么改成你们自己的
+
+### 1. 换照片
+
+把你们的婚纱照命名成 `01.jpg` ~ `09.jpg`，覆盖 `dist/assets/photos/` 里的同名文件就行。
+
+- **竖版 3:4 最好**（900×1200 或 1200×1600）
+- 单张控制在 300KB 以内，整套加起来别超过 3MB，手机打开才快
+- 想调裁切位置（比如人脸被切到），改 `config.js` 里那张图的 `focus`：
+  `'50% 30%'` 表示往上取，`'50% 60%'` 表示往下取
+
+### 2. 改文字
+
+**只需要改 `dist/config.js` 这一个文件**，里面每一项都有中文注释：
+
+- `couple` —— 新郎新娘姓名、英文名、分享标题
+- `wedding` —— 日期时间（`datetime` 用于倒计时，别写错格式）、农历、入席提醒
+- `venue` —— 酒店名、宴会厅、地址、经纬度、联系电话
+- `music` —— 音乐文件、歌名、歌手
+- `player` —— 是否自动滚屏、每屏停留几毫秒
+- `pages` —— 每一屏的照片和文案，可以调顺序、加页、删页
+
+> ⚠️ `wedding.lunar`（农历）默认值是估算的，**请自己核对后再改**。
+
+**经纬度怎么取**：打开 <https://lbs.amap.com/tools/picker>，搜到酒店点一下，
+把出来的 `经度,纬度` 填进 `venue.lng` 和 `venue.lat`。
+
+### 3. 换音乐
+
+把 mp3 放到 `dist/assets/music/`，然后改 `config.js`：
+
+```js
+music: { src: 'assets/music/你的歌.mp3', title: '歌名', artist: '歌手', loop: true }
+```
+
+文件名建议用英文/拼音，中文名在部分服务器上会出问题。
+现在用的是 `鹭卓 - 和你等烟花`（3.6MB）。
+
+### 4. 手机上先预览一下换图效果
+
+在网址后面加 `?edit=1`：
 
 ```
-.github/workflows/deploy.yml   GitHub Actions 自动部署（push 即发布）
-dist/
-  index.html     模板选择页（定稿后自动跳转定稿模板）
-  t1~t5.html     五套请帖模板（中式红金 / 清新花园 / 光影暗金 / 粉彩浪漫 / 国潮剪纸）
-  route.html     路线图（?t=1~5 跟随模板换肤）
-  config.js      ★ 所有可编辑内容都在这里
-  core.js        公共逻辑（无需改动）
-  CNAME          自定义域名（qyj-tools.eu.cc）
-  assets/        照片 / 音乐 / 路线图 PNG
+https://qyj-tools.eu.cc/?edit=1
 ```
 
-## 一键部署（GitHub Pages）
+每张照片右下角会出现「换图」按钮，可以直接从相册选图看效果。
+**这只是预览，刷新就没了** —— 满意之后再按第 1 步替换文件。
 
-1. GitHub 仓库 → **Settings → Pages → Build and deployment → Source 选「GitHub Actions」**（只需设一次）
-2. 之后每次 `git push` 自动部署到 https://bongmu.github.io/toolhub/
+---
 
-## 绑定域名 + Cloudflare 加速（国内访问）
+## 关于「自动播放音乐」
 
-域名：`qyj-tools.eu.cc`（已在 Cloudflare）。按顺序做：
+图文动画是 100% 自动开始的，这个没有任何限制。
 
-1. **Cloudflare 控制台**：Workers 和 Pages 里把旧的 Pages 项目（melodious-dodol-a2856d）**删掉**，避免域名冲突
-2. **Cloudflare DNS**：添加记录
-   - 类型 `CNAME`，名称 `@`（或 `qyj-tools`），目标 `bongmu.github.io`
-   - **代理状态先选「仅 DNS」（灰云）** ← 关键，让 GitHub 能验证域名、签发证书
-3. **GitHub 仓库** → Settings → Pages → Custom domain 填 `qyj-tools.eu.cc` → 等「DNS check successful」→ 出现 Enforce HTTPS 后**勾选**
-4. 证书签发后，回到 **Cloudflare DNS** 把那条记录的代理状态改为「**已代理**」（橙云）
-5. **Cloudflare** → SSL/TLS → 概述 → 加密模式选 **完全（严格）Full (strict)**
+音乐则受浏览器限制，程序按三层依次尝试：
 
-完成后：客人访问 `https://qyj-tools.eu.cc` → 命中 Cloudflare 边缘节点（CDN 缓存）→ 回源 GitHub Pages，国内不直连 github.io。
+1. 直接 `play()` —— 桌面浏览器、部分安卓浏览器可以直接响
+2. 微信内监听 `WeixinJSBridgeReady` —— **微信里基本都能自动响**（最常见的场景）
+3. 兜底：手指第一次碰到屏幕时无声接管 —— 用户不需要点任何按钮，
+   正常上滑看请柬的那一下就会把音乐带起来
 
-> 提示：Cloudflare 免费版对大陆的加速是「能用、更稳」，不是极致快（那是企业版中国网络的能力）。
-> 页面本体只有几十 KB，正文已做非阻塞字体加载（fonts.loli.net 国内镜像，加载失败自动回退系统字体），微信里打开体验是有保障的。
+所以在 iOS Safari 直接打开时，可能是「上滑第一下」才出声，这是系统限制，
+没有办法绕过（婚呗那种商业模板也一样）。音乐起播时有 1 秒淡入，不会突然炸响。
 
-## 定稿与编辑（只动 dist/config.js）
+---
 
-1. **定稿**：`finalTemplate` 填 `"1"`~`"5"`，首页直接进定稿请帖
-2. **姓名**：`groom` / `bride`（可选 `groomParents` 落款）
-3. **照片**：同名替换 `dist/assets/photos/1.jpg ~ 5.jpg`；加照片往 `photos` 数组加一行
-4. **音乐**：`music.mp3` 放入 `dist/assets/music/`
-5. **一键导航**：https://lbs.amap.com/tools/picker 拾取坐标填 `lng` / `lat`
+## 目录结构
+
+```
+dist/                     ← GitHub Pages 就发布这个目录
+  index.html              页面骨架 + 悬浮控件
+  config.js               ★ 所有内容都在这里，改它就够了
+  app.js                  渲染 / 动画 / 音乐 / 自动滚屏 / 倒计时 / 烟花
+  style.css               样式
+  404.html
+  CNAME
+  assets/
+    photos/01..09.jpg     ★ 替换成你们的婚纱照
+    music/*.mp3           ★ 背景音乐
+tools/
+  make_placeholders.py    重新生成占位图（换成真照片后就用不到了）
+  shot.mjs                无头浏览器逐屏截图，用来检查排版
+  check.mjs               自检：自动播放 / 自动滚屏 / 手动打断 / 烟花
+```
+
+## 本地预览
+
+```bash
+cd dist
+python -m http.server 8899
+# 浏览器打开 http://127.0.0.1:8899/
+```
+
+用 Chrome 的手机模拟（F12 → 左上角手机图标）看效果最准。
+
+## 发布
+
+推到 `main` 分支即可，GitHub Actions 会自动把 `dist/` 发到 GitHub Pages。
