@@ -71,6 +71,7 @@ window.INVITE = {
     { type: 'cover',
       photo: { src: 'assets/photos/01.jpg', focus: '50% 26%' },
       bigTitle: '大囍的日子',
+      topStrip: '此　生　挚　爱　共　白　首',
       hint: '上滑',
       dwell: 9000
     },

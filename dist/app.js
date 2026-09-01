@@ -52,18 +52,18 @@
 
   T.cover = function (p) {
     return '' +
-      '<div class="bleed wipe kb">' + img(p.photo) + '</div>' +
-      '<div class="scrim melt"></div>' +
-      '<div class="vstrip" data-anim="fade"' + d(1900) + '>囍　宴　请　柬</div>' +
-      '<div class="bigtitle" data-anim="down"' + d(300) + '>' + esc(p.bigTitle) + '</div>' +
+      '<div class="topstrip" data-anim="fade"' + d(1900) + '>' + esc(p.topStrip) + '</div>' +
+      '<div class="bigtitle" data-anim="down"' + d(300) + '>' +
+        '<i>“</i>' + esc(p.bigTitle) + '<i>”</i></div>' +
+      '<div class="ph hero wipe kb par" style="--pm:16px;--d:600ms">' + img(p.photo) + '</div>' +
       '<div class="foot">' +
-        '<div class="xipair" data-anim="zoom"' + d(1200) + '>囍</div>' +
-        '<div class="names">' +
-          '<span class="nm" data-anim="right"' + d(1400) + '>' + esc(C.groom) + '</span>' +
-          '<span class="nm" data-anim="left"' + d(1400) + '>' + esc(C.bride) + '</span>' +
+        '<div class="nrow">' +
+          '<span class="nm" data-anim="right"' + d(1500) + '>' + esc(C.groom) + '</span>' +
+          '<span class="xipair" data-anim="zoom"' + d(1350) + '>囍</span>' +
+          '<span class="nm" data-anim="left"' + d(1500) + '>' + esc(C.bride) + '</span>' +
         '</div>' +
-        '<div class="date" data-anim="up"' + d(1620) + '>' + esc(W.dateText) + '</div>' +
-        '<div class="place" data-anim="up"' + d(1760) + '>' +
+        '<div class="date" data-anim="up"' + d(1660) + '>' + esc(W.dateText) + '</div>' +
+        '<div class="place" data-anim="up"' + d(1790) + '>' +
           esc(V.name) + '　' + esc(V.hall) + '</div>' +
       '</div>' +
       '<div class="hint" data-anim="fade"' + d(2300) + '>' +
@@ -76,7 +76,7 @@
       return '<div class="vl" data-anim="up"' + d(700 + i * 200) + '>' + esc(t) + '</div>';
     }).join('');
     return '' +
-      '<div class="ph band wipe kb" style="--d:100ms">' + img(p.photo) + '</div>' +
+      '<div class="ph band kb" style="--d:60ms">' + img(p.photo) + '</div>' +
       '<div class="eyebrow" data-anim="fade"' + d(520) + '>' + esc(p.eyebrow) + '</div>' +
       '<div class="layer">' +
         '<div class="verse">' + verse + '</div>' +
@@ -165,7 +165,7 @@
       return '<div class="cl" data-anim="up"' + d(1500 + i * 150) + '>' + esc(t) + '</div>';
     }).join('');
     return '' +
-      '<div class="vstrip" data-anim="fade"' + d(1700) + '>' + esc(p.eyebrow) + '</div>' +
+      '<div class="eyebrow" data-anim="fade"' + d(240) + '>' + esc(p.eyebrow) + '</div>' +
       '<div class="ph cala card par" data-anim="tilt" style="--pm:20px;--d:260ms">' + img(q[0]) + '</div>' +
       '<div class="ph calb card par" data-anim="tilt" style="--pm:-14px;--d:480ms">' + img(q[1]) + '</div>' +
       '<div class="calwrap" data-anim="up"' + d(900) + '>' + calendarHTML() + '</div>' +
@@ -210,7 +210,7 @@
     }).join('');
 
     return '' +
-      '<div class="ph band wipe kb" style="--d:100ms">' + img(p.photo) + '</div>' +
+      '<div class="ph band kb" style="--d:60ms">' + img(p.photo) + '</div>' +
       '<div class="eyebrow" data-anim="fade"' + d(480) + '>' + esc(p.eyebrow) + '</div>' +
       '<div class="layer">' +
         '<div class="mapcard" data-anim="up"' + d(700) + '>' +
@@ -242,7 +242,7 @@
       return '<div class="el" data-anim="up"' + d(900 + k * 220) + '>' + esc(t) + '</div>';
     }).join('');
     return '' +
-      '<div class="bleed dim wipe kb">' + img(p.photo) + '</div>' +
+      '<div class="bleed dim kb">' + img(p.photo) + '</div>' +
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
       '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
@@ -258,7 +258,7 @@
   };
 
   /* 哪几页要内描金框 */
-  var FRAMED = { cover: 1, ending: 1 };
+  var FRAMED = { cover: 1 };
 
   /* ---------------- 构建 ---------------- */
   var pages = [];
@@ -419,6 +419,9 @@
     if (i === cur) return;
     cur = i;
     [].forEach.call(dotsBox.children, function (n, k) { n.classList.toggle('on', k === i); });
+    var dark = pg.classList.contains('pg-ending');   // 结尾页是暗的，控件反色
+    dotsBox.classList.toggle('on-dark', dark);
+    hud.classList.toggle('on-dark', dark);
     if (pg.querySelector('#fw')) startFireworks(pg.querySelector('#fw'));
     schedule();
   }
