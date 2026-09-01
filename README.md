@@ -86,6 +86,21 @@ music: { src: 'assets/music/你的歌.mp3', title: '歌名', artist: '歌手', l
 文件名建议用英文/拼音，中文名在部分服务器上会出问题。
 现在用的是 `鹭卓 - 和你等烟花`（3.6MB）。
 
+### 4. 改完名字/日期后，同步一下微信分享卡片
+
+**微信抓取链接时不执行 JS**，所以分享卡片的标题和缩略图必须写死在 `index.html` 里。
+改完 `config.js` 后跑一句：
+
+```bash
+python tools/sync_meta.py
+```
+
+它会自动把姓名、日期同步进 `<title>`、og 标签和开场页，
+并用 `01.jpg` 重新裁一张 500×500 的方形缩略图 `assets/img/share.jpg`。
+
+> 微信对分享卡片有缓存。改完发现还是旧的，等一会儿，
+> 或者在链接后面加个 `?v=2` 让它当成新链接重新抓。
+
 ### 4. 手机上先预览一下换图效果
 
 在网址后面加 `?edit=1`：
@@ -127,10 +142,12 @@ dist/                     ← GitHub Pages 就发布这个目录
   404.html
   CNAME
   assets/
+    img/share.jpg         微信分享缩略图（sync_meta.py 自动生成）
     photos/01..09.jpg     ★ 替换成你们的婚纱照
     music/*.mp3           ★ 背景音乐
 tools/
   prepare_photos.py     ★ 照片压缩/摆正/改名流水线，换照片后跑它
+  sync_meta.py          ★ 把 config.js 的姓名日期同步到微信分享卡片
   make_placeholders.py    重新生成占位图（换成真照片后就用不到了）
   shot.mjs                无头浏览器逐屏截图，用来检查排版
   check.mjs               自检：自动播放 / 自动滚屏 / 手动打断 / 烟花

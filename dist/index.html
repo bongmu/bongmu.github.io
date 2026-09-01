@@ -7,22 +7,36 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="theme-color" content="#F7F3EC">
-<title>婚礼邀请函</title>
 
+<!-- ===== 分享卡片信息（微信/浏览器爬虫用）=====================
+     微信抓链接时【不执行 JS】，所以这几行必须写死在 HTML 里。
+     改完 config.js 之后跑一次：  python tools/sync_meta.py
+     它会自动把下面这段和 boot 里的姓名同步成 config.js 的内容。
+     ========================================================= -->
+<title>秦钰杰 &amp; 吴雅男 · 婚礼邀请函</title>
+<meta name="description" content="2026.10.06　诚邀您来见证我们的幸福">
 <meta property="og:type" content="website">
-<meta property="og:title" content="婚礼邀请函">
-<meta property="og:description" content="诚邀您来见证我们的幸福">
-<meta property="og:image" content="assets/photos/01.jpg">
+<meta property="og:title" content="秦钰杰 &amp; 吴雅男 · 婚礼邀请函">
+<meta property="og:description" content="2026.10.06　诚邀您来见证我们的幸福">
+<meta property="og:image" content="https://qyj-tools.eu.cc/assets/img/share.jpg">
+<meta property="og:url" content="https://qyj-tools.eu.cc/">
+<meta name="twitter:card" content="summary">
+<!-- ===== 分享卡片信息 结束 ===== -->
 
+<link rel="icon" href="assets/img/share.jpg">
+<link rel="apple-touch-icon" href="assets/img/share.jpg">
 <link rel="preload" as="image" href="assets/photos/01.jpg">
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<!-- 开场（只等首屏图片，最长 3.2 秒） -->
+<!-- 开场（只等首屏图片，最长 3.2 秒）
+     这里的照片和姓名同时也是微信抓取缩略图/标题的来源，别删 -->
 <div id="boot">
   <div class="bx">
-    <div class="xi">囍</div>
+    <img class="bphoto" src="assets/img/share.jpg" width="500" height="500"
+         alt="秦钰杰 &amp; 吴雅男 婚礼邀请函">
+    <div class="bname">秦钰杰 &amp; 吴雅男</div>
     <div class="bar"><i id="bootBar"></i></div>
     <div class="btxt">INVITATION</div>
   </div>
