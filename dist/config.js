@@ -10,24 +10,24 @@ window.INVITE = {
 
   /* ---------- 新人 ---------- */
   couple: {
-    groom:   '张沐辰',
-    bride:   '林知夏',
-    groomEn: 'MUCHEN',
-    brideEn: 'ZHIXIA',
+    groom:   '秦钰杰',
+    bride:   '吴雅男',
+    groomEn: 'YUJIE',
+    brideEn: 'YANAN',
     // 页面标题 / 微信分享标题
-    shareTitle: '张沐辰 & 林知夏 · 婚礼邀请函',
-    shareDesc:  '2026.12.06　诚邀您来见证我们的幸福'
+    shareTitle: '秦钰杰 & 吴雅男 · 婚礼邀请函',
+    shareDesc:  '2026.10.06　诚邀您来见证我们的幸福'
   },
 
   /* ---------- 时间 ---------- */
   wedding: {
     // 婚礼时间（用于倒计时，务必写成这个格式，+08:00 是北京时间）
-    datetime: '2026-12-06T12:00:00+08:00',
-    dateText: '2026.12.06',
-    dateCn:   '二〇二六年十二月六日',
-    week:     '星期日',
+    datetime: '2026-10-06T12:00:00+08:00',
+    dateText: '2026.10.06',
+    dateCn:   '二〇二六年十月六日',
+    week:     '星期二',
     // ⚠ 农历日期请自行核对后填写
-    lunar:    '农历十月廿七',
+    lunar:    '农历八月廿六',
     timeText: '中午 12:00',
     // 入场提醒（邀请函页小字）
     tips:     '请于 11:30 前入席'
@@ -35,16 +35,16 @@ window.INVITE = {
 
   /* ---------- 地点 ---------- */
   venue: {
-    name:    '西子湖四季酒店',
-    hall:    '三楼 · 揽月宴会厅',
-    address: '浙江省杭州市西湖区灵隐路 5 号',
+    name:    '临淇镇陈庄村',
+    hall:    '南大街',
+    address: '临淇镇陈庄村',
     // 高德坐标（GCJ-02）。在 https://lbs.amap.com/tools/picker 上取点后填这里
-    lng: 120.13502,
-    lat: 30.24473,
+    lng: 113.89,
+    lat: 35.78,
     // 联系人
     contacts: [
-      { name: '新郎 张沐辰', phone: '13800000001' },
-      { name: '新娘 林知夏', phone: '13800000002' }
+      { name: '新郎 秦钰杰', phone: '15221024542' },
+      { name: '新娘 吴雅男', phone: '15665413106' }
     ]
   },
 
@@ -162,7 +162,7 @@ window.INVITE = {
     { type: 'map',
       eyebrow: 'LOCATION',
       title: '婚 礼 地 点',
-      note: '导航过来时若堵车，别急，我们等你。'
+      note: '我们等你。'
     },
 
     { type: 'ending',
