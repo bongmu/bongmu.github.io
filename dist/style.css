@@ -43,7 +43,7 @@ a{color:inherit;text-decoration:none}
   /* --app-h 由 JS 锁成固定 px：iOS 地址栏伸缩不再让整屏吸附抖动/卡死 */
   height:100vh;height:100dvh;height:var(--app-h,100dvh);
   overflow-y:scroll;overflow-x:hidden;
-  scroll-snap-type:y proximity;   /* mandatory 在 iOS 上会顶掉程序滚动 */
+  scroll-snap-type:y mandatory;   /* 一屏一屏吸附；程序滚动时 goto() 会临时关掉它，iOS 不受影响 */
   scrollbar-width:none;
 }
 #stage::-webkit-scrollbar{display:none}
