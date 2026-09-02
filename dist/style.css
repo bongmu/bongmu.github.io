@@ -228,8 +228,8 @@ a{color:inherit;text-decoration:none}
 
 /* =====================  2/7 邀请函  ===================== */
 /* 照片从顶部满宽铺下来，底边融进淡粉 */
-.pg-invite .band{left:0;right:0;top:0;width:auto;height:46%;z-index:1}
-.pg-invite.ar1-land .band{height:46%}
+.pg-invite .band{left:0;right:0;top:0;width:auto;height:54%;z-index:1}
+.pg-invite.ar1-land .band{height:50%}
 .pg-invite .band::after{
   content:"";position:absolute;inset:0;z-index:3;pointer-events:none;
   background:linear-gradient(180deg,rgba(251,239,233,.42) 0%,rgba(251,239,233,0) 18%,
@@ -244,23 +244,27 @@ a{color:inherit;text-decoration:none}
   padding:0 30px calc(var(--safe-b) + 40px);text-align:center;
 }
 .pg-invite .verse{display:flex;flex-direction:column;gap:13px}
+.pg-invite .vslash{
+  margin:20px 0 6px;font-family:Georgia,serif;font-style:italic;
+  font-size:16px;line-height:1;color:var(--red-lt);
+}
 .pg-invite .vl{
   font-family:var(--kai);font-weight:700;font-size:clamp(16px,4.8vw,20px);
   letter-spacing:.12em;text-indent:.12em;color:var(--red);
 }
 .pg-invite .ivbody{
-  margin:24px 0 0;font-family:var(--kai);
-  font-size:clamp(13.5px,3.9vw,15.5px);line-height:2.1;letter-spacing:.06em;
+  margin:14px 0 0;font-family:var(--kai);
+  font-size:clamp(13.5px,3.9vw,15.5px);line-height:2.15;letter-spacing:.06em;
   color:var(--ink-soft);white-space:pre-line;
 }
-.pg-invite .seal{margin:26px 0 0;display:flex;justify-content:center}
+.pg-invite .seal{margin:20px 0 0;display:flex;justify-content:center}
 .pg-invite .dt{
   margin:22px 0 0;font-family:Georgia,serif;font-size:14px;
   letter-spacing:.2em;text-indent:.2em;color:var(--ink-fade);
 }
 .pg-invite .sign{
-  margin:9px 0 0;font-family:var(--kai);font-weight:700;
-  font-size:19px;letter-spacing:.22em;text-indent:.22em;color:var(--red);
+  margin:14px 0 0;font-family:var(--kai);font-weight:700;
+  font-size:clamp(19px,5.6vw,23px);letter-spacing:.22em;text-indent:.22em;color:var(--red);
 }
 
 /* =====================  3/7 相册  ===================== */

@@ -78,7 +78,8 @@ window.INVITE = {
     { type: 'invite',
       photo: { src: 'assets/photos/04.jpg', focus: '50% 32%' },
       verse: ['你是我遇见所有美好的刚刚好'],
-      body: '时间会告诉我们\n简单的喜欢最长久\n平凡的陪伴最安心'
+      body: '时间会告诉我们\n简单的喜欢最长久\n平凡的陪伴最安心',
+      sign: '我们不见不散'
     },
 
     /* ---- 3/7 相册 ---- */

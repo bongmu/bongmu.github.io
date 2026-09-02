@@ -101,6 +101,8 @@
         esc(p.eyebrow) + '</div>' : '') +
       '<div class="layer">' +
         '<div class="verse">' + verse + '</div>' +
+        ((p.verse && p.verse.length && p.body)
+          ? '<i class="vslash" data-anim="fade"' + d(1050) + '>/</i>' : '') +
         '<p class="ivbody" data-anim="up"' + d(1180) + '>' + esc(p.body) + '</p>' +
         '<div class="seal"><span class="xi-seal" data-anim="seal"' + d(1450) + '>囍</span></div>' +
         (p.sign ? '<div class="sign" data-anim="up"' + d(1760) + '>' +
