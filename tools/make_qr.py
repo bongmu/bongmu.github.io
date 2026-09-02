@@ -3,7 +3,10 @@
 
 产出两个文件（都在 dist/assets/img/ 下，同时也复制到项目根目录方便直接发）：
   qr.png       裸二维码，想自己排版时用
-  qr-card.png  竖版邀请卡（囍 + 姓名 + 日期 + 二维码 + 引导语），可直接发给宾客
+  qr-card.png  竖版邀请卡（婚纱照拱门 + 姓名夹囍 + 二维码），可直接发给宾客
+
+卡片刻意「不写」日期地点：写全了宾客就没有扫码的理由了，
+只用一行「时间·地点·导航都在请柬里」把人引进 H5。
 
 用法：
     python tools/make_qr.py
@@ -20,6 +23,7 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CFG = os.path.join(ROOT, "dist", "config.js")
 CNAME = os.path.join(ROOT, "dist", "CNAME")
+PHOTO = os.path.join(ROOT, "dist", "assets", "img", "share.jpg")
 IMGDIR = os.path.join(ROOT, "dist", "assets", "img")
 os.makedirs(IMGDIR, exist_ok=True)
 
@@ -34,7 +38,8 @@ def field(key):
 
 groom, bride = field("groom"), field("bride")
 date_text, week = field("dateText"), field("week")
-lunar, time_text = field("lunar"), field("timeText")
+lunar = field("lunar")
+venue = field("name")
 url = "https://" + io.open(CNAME, encoding="utf-8").read().strip() + "/"
 
 # ---------- 配色（和页面一致：淡粉米白底 + 红字）----------
@@ -90,99 +95,109 @@ for y in range(H):
     t = (y / H) ** 1.1
     d.line([(0, y), (W, y)], fill=tuple(int(a + (b - a) * t) for a, b in zip((253, 247, 243), BLUSH_2)))
 
-# 双层红细框（婚呗封面那圈）
+# 双层红细框 + 四角小红块
 d.rounded_rectangle([44, 44, W - 44, H - 44], radius=16, outline=RED, width=3)
-d.rounded_rectangle([62, 62, W - 62, H - 62], radius=10,
-                    outline=(RED_LT[0], RED_LT[1], RED_LT[2]), width=1)
-# 四角小红块
+d.rounded_rectangle([62, 62, W - 62, H - 62], radius=10, outline=RED_LT, width=1)
 for cx, cy in [(44, 44), (W - 44, 44), (44, H - 44), (W - 44, H - 44)]:
     d.rectangle([cx - 8, cy - 8, cx + 8, cy + 8], fill=RED)
 
-f_xi = font(KAI, 132)
-f_name = font(SONG, 62)
-f_amp = font(KAI, 46)
-f_date = font("C:/Windows/Fonts/georgia.ttf", 52)
-f_sub = font(KAI, 34)
-f_tip = font(HEI, 33)
-f_small = font(HEI, 26)
-f_eyebrow = font(HEI, 24)
+f_strip = font(KAI, 30)
+f_name = font(SONG, 66)
+f_xi_mid = font(KAI, 78)
+f_tip = font(KAI, 38)
+f_small = font(HEI, 27)
+f_venue = font(KAI, 30)
 
-y = 132
-center(d, W / 2, y, "WEDDING INVITATION", f_eyebrow, RED_MID, spacing=9)
+# 顶部竖排小字（呼应首页的「此生挚爱共白首」）
+y = 128
+center(d, W / 2, y, "此 生 挚 爱 共 白 首", f_strip, RED_LT, spacing=4)
 
-# 囍 印章
-y += 78
-box = 176
-x0 = (W - box) / 2
-d.rounded_rectangle([x0, y, x0 + box, y + box], radius=8, fill=RED)
-d.rounded_rectangle([x0 + 11, y + 11, x0 + box - 11, y + box - 11], radius=5,
-                    outline=(255, 226, 218), width=2)
-bb = d.textbbox((0, 0), "囍", font=f_xi)
-d.text((W / 2 - (bb[2] - bb[0]) / 2 - bb[0], y + box / 2 - (bb[3] - bb[1]) / 2 - bb[1]),
-       "囍", font=f_xi, fill=CREAM)
+# ---------- 婚纱照拱门 ----------
+pw, ph = 452, 556
+px, py = int((W - pw) / 2), 196
+r = pw // 2
+try:
+    ph_img = Image.open(PHOTO).convert("RGB")
+    sw, sh = ph_img.size                      # 按短边裁成 pw:ph 比例再缩放
+    want = pw / float(ph)
+    if sw / float(sh) > want:
+        nw = int(sh * want); ph_img = ph_img.crop(((sw - nw) // 2, 0, (sw + nw) // 2, sh))
+    else:
+        nh = int(sw / want); ph_img = ph_img.crop((0, 0, sw, nh))
+    ph_img = ph_img.resize((pw, ph), Image.LANCZOS)
+    mask = Image.new("L", (pw, ph), 0)
+    md = ImageDraw.Draw(mask)
+    md.pieslice([0, 0, pw, pw], 180, 360, fill=255)   # 上半圆
+    md.rectangle([0, r, pw, ph], fill=255)            # 下方矩形
+    card.paste(ph_img, (px, py), mask)
+except Exception as e:
+    d.rectangle([px, py, px + pw, py + ph], fill=BLUSH_2)
+    print("照片没读到，用空框占位：%s" % e)
 
-# 姓名
-y += box + 74
+# 拱门描边
+d.arc([px, py, px + pw, py + pw], 180, 360, fill=RED_LT, width=3)
+d.line([px, py + r, px, py + ph], fill=RED_LT, width=3)
+d.line([px + pw, py + r, px + pw, py + ph], fill=RED_LT, width=3)
+d.line([px, py + ph, px + pw, py + ph], fill=RED_LT, width=3)
+
+# ---------- 姓名夹囍（版式和首页一致）----------
+y = py + ph + 76
 nw_g = d.textlength(groom, font=f_name)
 nw_b = d.textlength(bride, font=f_name)
-gap = 58
-total = nw_g + gap + nw_b
+bb = d.textbbox((0, 0), "囍", font=f_xi_mid)
+xw = bb[2] - bb[0]
+gap = 44
+total = nw_g + gap + xw + gap + nw_b
 x = W / 2 - total / 2
-d.text((x, y), groom, font=f_name, fill=RED_MID)
-bb = d.textbbox((0, 0), "&", font=f_amp)
-d.text((x + nw_g + gap / 2 - (bb[2] - bb[0]) / 2 - bb[0], y + 12), "&", font=f_amp, fill=RED_LT)
-d.text((x + nw_g + gap, y), bride, font=f_name, fill=RED_MID)
+d.text((x, y + 6), groom, font=f_name, fill=RED_MID)
+d.text((x + nw_g + gap - bb[0], y - 6), "囍", font=f_xi_mid, fill=RED)
+d.text((x + nw_g + gap + xw + gap, y + 6), bride, font=f_name, fill=RED_MID)
 
-# 日期
+# 地点（只给村名，不给完整地址和时间——具体的留在请柬里）
 y += 104
-center(d, W / 2, y, date_text, f_date, RED, spacing=6)
-y += 74
-center(d, W / 2, y, "%s　%s　%s" % (week, lunar, time_text), f_sub, INK_SOFT, spacing=2)
+if venue:
+    center(d, W / 2, y, venue, f_venue, INK_SOFT, spacing=6)
 
-# 分隔线
-y += 76
-d.line([W / 2 - 90, y, W / 2 + 90, y], fill=RED_LT, width=1)
-
-# 二维码（纸白托底，中间留白盖一个囍）
+# 细分隔
 y += 62
-qsize = 420
+d.line([W / 2 - 84, y, W / 2 + 84, y], fill=RED_LT, width=1)
+d.rectangle([W / 2 - 5, y - 5, W / 2 + 5, y + 5], fill=RED_LT)
+
+# ---------- 二维码 ----------
+y += 48
+qsize = 372
 buf = io.BytesIO()
 segno.make(url, error="h").save(buf, kind="png", scale=20, border=0,
                                 dark="#A81E17", light="#FFF8F3")
 buf.seek(0)
 qimg = Image.open(buf).convert("RGB").resize((qsize, qsize), Image.NEAREST)
-pad = 30
-plate = (W - qsize - pad * 2) / 2
+pad = 26
+plate = (W - qsize) / 2 - pad
 d.rectangle([plate, y - pad, plate + qsize + pad * 2, y + qsize + pad], fill=CREAM)
-d.rectangle([plate, y - pad, plate + qsize + pad * 2, y + qsize + pad],
-            outline=RED_LT, width=2)
+d.rectangle([plate, y - pad, plate + qsize + pad * 2, y + qsize + pad], outline=RED_LT, width=2)
 card.paste(qimg, (int((W - qsize) / 2), int(y)))
 
-# 二维码正中的囍（高纠错撑得住）
+# 二维码正中的囍（error="h" 纠错撑得住）
 c = qsize * 0.19
-cx0 = (W - c) / 2
-cy0 = y + (qsize - c) / 2
+cx0, cy0 = (W - c) / 2, y + (qsize - c) / 2
 d.rectangle([cx0, cy0, cx0 + c, cy0 + c], fill=CREAM)
 f_xi2 = font(KAI, int(c * 0.74))
 bb = d.textbbox((0, 0), "囍", font=f_xi2)
 d.text((W / 2 - (bb[2] - bb[0]) / 2 - bb[0], cy0 + c / 2 - (bb[3] - bb[1]) / 2 - bb[1]),
        "囍", font=f_xi2, fill=RED)
 
-# 引导语
-y += qsize + pad + 62
-center(d, W / 2, y, "长按或扫描二维码", f_tip, RED, spacing=4)
-y += 52
-center(d, W / 2, y, "查看我们的电子请柬", f_tip, RED_MID, spacing=4)
-y += 56
-center(d, W / 2, y, "（内含婚礼时间与导航）", f_small, INK_SOFT, spacing=2)
+# ---------- 引导语：不写日期地点，只说「都在里面」 ----------
+y += qsize + pad + 56
+center(d, W / 2, y, "长 按 识 别 二 维 码", f_tip, RED, spacing=2)
+y += 58
+center(d, W / 2, y, "婚礼时间 · 地点 · 导航都在请柬里", f_small, INK_SOFT, spacing=1)
 
 out = os.path.join(IMGDIR, "qr-card.png")
 card.save(out, "PNG", optimize=True)
 
-# 复制一份到项目根目录，方便直接拖进微信发
 import shutil
 shutil.copy(out, os.path.join(ROOT, "婚礼邀请函二维码.png"))
-
-print("qr-card.png     邀请卡 %dx%d  %dKB" % (W, H, os.path.getsize(out) // 1024))
-print("\n链接：%s" % url)
-print("根目录已生成「婚礼邀请函二维码.png」，可直接发微信")
+print("已生成：")
+print("  dist/assets/img/qr-card.png")
+print("  婚礼邀请函二维码.png（根目录，可直接发微信）")
+print("  链接 %s" % url)
