@@ -28,11 +28,6 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
   function d(ms) { return ' style="--d:' + ms + 'ms"'; }
-  /* 艺术字标题：囍 用「喜喜」压窄拼合（手写字体普遍缺囍字，拼出来风格反而统一） */
-  function artTitle(t) {
-    return esc(t).replace('囍',
-      '<span class="xxi" aria-hidden="true"><i>喜</i><i>喜</i></span>');
-  }
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
   /* 所有照片一律不 lazy —— 九张压完总共不到 1MB，
@@ -55,19 +50,14 @@
   /* ---------------- 1/7 封面 ---------------- */
   var T = {};
 
-  /* 婚呗式标题：逐字翻滚进场（囍 拼合体作为一个整体翻进来） */
+  /* 婚呗式标题：逐字翻滚进场（囍 已造进字体，当普通字符处理） */
   function rollTitle(t) {
-    var i = 0;
+    var src = esc(t), out = '', i = 0;
     function rc(ch) {
       return '<span class="rc" style="--rd:' + (260 + (i++) * 75) + 'ms">' + ch + '</span>';
     }
-    var src = esc(t).replace('囍', ''), out = rc('<i>“</i>');
-    for (var k = 0; k < src.length; k++) {
-      out += (src.charAt(k) === '')
-        ? '<span class="rc" style="--rd:' + (260 + (i++) * 75) + 'ms">' +
-            '<span class="xxi" aria-hidden="true"><i>喜</i><i>喜</i></span></span>'
-        : rc(src.charAt(k));
-    }
+    out += rc('<i>“</i>');
+    for (var k = 0; k < src.length; k++) out += rc(src.charAt(k));
     return out + rc('<i>”</i>');
   }
 
@@ -266,7 +256,7 @@
       '<div class="bleed kb">' + img(p.photo) + '</div>' +
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
-      '<div class="bigtitle" data-anim="down"' + d(400) + '>' + artTitle(p.bigTitle) + '</div>' +
+      '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
       '<div class="efoot">' +
         '<div class="elines">' + lines + '</div>' +
         '<i class="rule c" style="width:44px" data-anim="rule"' + d(1600) + '></i>' +

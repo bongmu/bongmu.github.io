@@ -176,15 +176,6 @@ a{color:inherit;text-decoration:none}
   opacity:1;transform:rotateX(0);
   transition:opacity .38s ease var(--rd,0ms),transform .6s var(--ease) var(--rd,0ms);
 }
-/* 囍 = 两个喜压窄拼合（比例照手绘稿调的：每个压到 64%，轻微咬合） */
-.pg-cover .bigtitle .xxi{
-  display:inline-block;transform:scaleX(.64);
-  margin:0 -.36em;
-}
-.pg-cover .bigtitle .xxi i{
-  font-style:normal;font-size:inherit;
-  vertical-align:baseline;margin:0;
-}
 /* 标题两侧的小引号 */
 .pg-cover .bigtitle i{
   font-style:normal;color:var(--red-lt);font-size:.5em;
@@ -455,14 +446,6 @@ a{color:inherit;text-decoration:none}
   text-align:center;font-family:'ZKuaile',var(--kai);font-weight:400;
   font-size:clamp(25px,7.4vw,31px);letter-spacing:.08em;text-indent:.08em;
   color:#FFF1E6;text-shadow:0 2px 16px rgba(0,0,0,.6);
-}
-.pg-ending .bigtitle .xxi{
-  display:inline-block;transform:scaleX(.64);
-  margin:0 -.36em;
-}
-.pg-ending .bigtitle .xxi i{
-  font-style:normal;font-size:inherit;
-  vertical-align:baseline;margin:0;
 }
 /* 暗底上的日历卡：磨砂半透明，烟花能从卡片后面透出来。
    位置压到 44%，避开照片里两个人的头 */
