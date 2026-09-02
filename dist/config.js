@@ -39,11 +39,7 @@ window.INVITE = {
     address: '河南省林州市临淇镇陈庄村南大街',
     // 高德坐标（GCJ-02），取点：https://lbs.amap.com/tools/picker
     lng: 113.89,
-    lat: 35.78,
-    contacts: [
-      { name: '新郎 秦钰杰', phone: '15221024542' },
-      { name: '新娘 吴雅男', phone: '15665413106' }
-    ]
+    lat: 35.78
   },
 
   /* ---------- 背景音乐 ---------- */
