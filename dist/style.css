@@ -232,7 +232,8 @@ a{color:inherit;text-decoration:none}
 }
 .pg-invite .layer{
   display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
-  padding:0 30px calc(var(--safe-b) + 40px);text-align:center;
+  /* 文案只剩三行加囍印：贴底收住，上下的粉色余量各留 100px 左右对称 */
+  padding:0 30px calc(var(--safe-b) + 100px);text-align:center;
 }
 .pg-invite .verse{display:flex;flex-direction:column;gap:13px}
 .pg-invite .vslash{

@@ -77,9 +77,7 @@ window.INVITE = {
     /* ---- 2/7 邀请函 ---- */
     { type: 'invite',
       photo: { src: 'assets/photos/04.jpg', focus: '50% 32%' },
-      verse: ['你是我遇见所有美好的刚刚好'],
       body: '时间会告诉我们\n简单的喜欢最长久\n平凡的陪伴最安心',
-      sign: '我们不见不散'
     },
 
     /* ---- 3/7 相册 ---- */
@@ -107,7 +105,7 @@ window.INVITE = {
         { src: 'assets/photos/06.jpg', focus: '50% 28%' },
         { src: 'assets/photos/07.jpg', focus: '50% 28%' }
       ],
-      lines: ['春来夏往　秋收冬藏', '漫漫人生', '听闻远方有你　我跋涉千里', '幸得所爱　无畏山海']
+      lines: ['春来夏往　秋收冬藏', '漫漫人生', '幸得所爱　无畏山海']
     },
 
     /* ---- 6/7 婚礼地址 ---- */
