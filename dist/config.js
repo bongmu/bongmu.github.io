@@ -73,7 +73,7 @@ window.INVITE = {
     /* ---- 2/7 邀请函 ---- */
     { type: 'invite',
       photo: { src: 'assets/photos/04.jpg', focus: '50% 32%' },
-      body: '时间会告诉我们\n简单的喜欢最长久\n平凡的陪伴最安心',
+      body: '简单的喜欢最长久\n平凡的陪伴最安心',
     },
 
     /* ---- 3/7 相册 ---- */
