@@ -55,12 +55,27 @@
   /* ---------------- 1/7 封面 ---------------- */
   var T = {};
 
+  /* 婚呗式标题：逐字翻滚进场（囍 拼合体作为一个整体翻进来） */
+  function rollTitle(t) {
+    var i = 0;
+    function rc(ch) {
+      return '<span class="rc" style="--rd:' + (260 + (i++) * 75) + 'ms">' + ch + '</span>';
+    }
+    var src = esc(t).replace('囍', ''), out = rc('<i>“</i>');
+    for (var k = 0; k < src.length; k++) {
+      out += (src.charAt(k) === '')
+        ? '<span class="rc" style="--rd:' + (260 + (i++) * 75) + 'ms">' +
+            '<span class="xxi" aria-hidden="true"><i>喜</i><i>喜</i></span></span>'
+        : rc(src.charAt(k));
+    }
+    return out + rc('<i>”</i>');
+  }
+
   T.cover = function (p) {
     return '' +
       '<div class="topstrip" data-anim="fade"' + d(1900) + '>' + esc(p.topStrip) + '</div>' +
-      '<div class="bigtitle" data-anim="down"' + d(300) + '>' +
-        '<i>“</i>' + artTitle(p.bigTitle) + '<i>”</i></div>' +
-      '<div class="ph hero wipe kb par" style="--pm:16px;--d:600ms">' + img(p.photo) + '</div>' +
+      '<div class="bigtitle">' + rollTitle(p.bigTitle) + '</div>' +
+      '<div class="ph hero kb par" style="--pm:16px;--d:600ms">' + img(p.photo) + '</div>' +
       '<div class="foot">' +
         '<div class="nrow">' +
           '<span class="nm" data-anim="right"' + d(1500) + '>' + esc(C.groom) + '</span>' +
