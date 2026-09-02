@@ -26,6 +26,13 @@
   --safe-b:env(safe-area-inset-bottom,0px);
 }
 
+/* 艺术字：站酷快乐体（OFL 开源），只子集化了标题用到的十几个字，1.9KB */
+@font-face{
+  font-family:'ZKuaile';
+  src:url("assets/fonts/art.woff2") format("woff2");
+  font-display:swap;
+}
+
 *,*::before,*::after{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0;padding:0;height:100%;overflow:hidden;background:var(--blush)}
 body{
@@ -146,12 +153,19 @@ a{color:inherit;text-decoration:none}
   background:linear-gradient(180deg,rgba(168,30,23,.10),rgba(168,30,23,0) 26%);
 }
 .pg-cover .bigtitle{
-  position:absolute;z-index:5;left:0;right:0;top:calc(var(--safe-t) + 56px);
+  position:absolute;z-index:5;left:0;right:0;top:calc(var(--safe-t) + 46px);
   text-align:center;
-  font-family:var(--kai);font-weight:700;
-  font-size:clamp(33px,10.2vw,45px);letter-spacing:.06em;text-indent:.06em;
+  font-family:'ZKuaile',var(--kai);font-weight:400;
+  font-size:clamp(40px,14.5vw,62px);line-height:1.15;
+  letter-spacing:.01em;text-indent:.01em;
   color:var(--red);
 }
+/* 囍 = 两个喜压窄拼合（比例照手绘稿调的：每个压到 64%，轻微咬合） */
+.pg-cover .bigtitle .xxi{
+  display:inline-block;transform:scaleX(.64);
+  margin:0 -.36em;
+}
+.pg-cover .bigtitle .xxi i{font-style:normal}
 /* 标题两侧的小引号 */
 .pg-cover .bigtitle i{
   font-style:normal;color:var(--red-lt);font-size:.5em;
@@ -412,13 +426,18 @@ a{color:inherit;text-decoration:none}
 
 /* =====================  7/7 结尾（烟花）  ===================== */
 #fw{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
-.pg-ending .bleed{inset:auto 0 0 0;top:13%;height:87%}
+.pg-ending .bleed{inset:0}   /* 照片铺满整屏 */
 .pg-ending .bigtitle{
   position:absolute;z-index:5;left:0;right:0;top:calc(var(--safe-t) + 56px);
-  text-align:center;font-family:var(--kai);font-weight:700;
+  text-align:center;font-family:'ZKuaile',var(--kai);font-weight:400;
   font-size:clamp(25px,7.4vw,31px);letter-spacing:.08em;text-indent:.08em;
   color:var(--red);
 }
+.pg-ending .bigtitle .xxi{
+  display:inline-block;transform:scaleX(.64);
+  margin:0 -.36em;
+}
+.pg-ending .bigtitle .xxi i{font-style:normal}
 /* 暗底上的日历卡：磨砂半透明，烟花能从卡片后面透出来。
    位置压到 44%，避开照片里两个人的头 */
 .pg-ending .calwrap{

@@ -28,6 +28,11 @@
       .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
   }
   function d(ms) { return ' style="--d:' + ms + 'ms"'; }
+  /* 艺术字标题：囍 用「喜喜」压窄拼合（手写字体普遍缺囍字，拼出来风格反而统一） */
+  function artTitle(t) {
+    return esc(t).replace('囍',
+      '<span class="xxi" aria-hidden="true"><i>喜</i><i>喜</i></span>');
+  }
   function clamp(v, a, b) { return v < a ? a : v > b ? b : v; }
 
   /* 所有照片一律不 lazy —— 九张压完总共不到 1MB，
@@ -54,7 +59,7 @@
     return '' +
       '<div class="topstrip" data-anim="fade"' + d(1900) + '>' + esc(p.topStrip) + '</div>' +
       '<div class="bigtitle" data-anim="down"' + d(300) + '>' +
-        '<i>“</i>' + esc(p.bigTitle) + '<i>”</i></div>' +
+        '<i>“</i>' + artTitle(p.bigTitle) + '<i>”</i></div>' +
       '<div class="ph hero wipe kb par" style="--pm:16px;--d:600ms">' + img(p.photo) + '</div>' +
       '<div class="foot">' +
         '<div class="nrow">' +
@@ -241,10 +246,10 @@
       return '<div class="el" data-anim="up"' + d(900 + k * 220) + '>' + esc(t) + '</div>';
     }).join('');
     return '' +
-      '<div class="bleed dim kb">' + img(p.photo) + '</div>' +
+      '<div class="bleed kb">' + img(p.photo) + '</div>' +
       '<div class="scrim night"></div>' +
       '<canvas id="fw"></canvas>' +
-      '<div class="bigtitle" data-anim="down"' + d(400) + '>' + esc(p.bigTitle) + '</div>' +
+      '<div class="bigtitle" data-anim="down"' + d(400) + '>' + artTitle(p.bigTitle) + '</div>' +
       '<div class="efoot">' +
         '<div class="elines">' + lines + '</div>' +
         '<i class="rule c" style="width:44px" data-anim="rule"' + d(1600) + '></i>' +
